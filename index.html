@@ -10,24 +10,29 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-        
         :root {
-            --bg-body: #0d1117;
-            --bg-sidebar: #161b22;
-            --bg-card: #21262d;
-            --bg-hover: #30363d;
-            --text-main: #e6edf3;
-            --text-muted: #8b949e;
-            --border-color: #30363d;
-            
-            --party-red: #da3633;
-            --party-red-glow: rgba(218, 54, 51, 0.15);
-            --party-gold: #e3b341;
-            
-            --status-ok: #238636;
-            --status-warn: #d29922;
-            --status-err: #f85149;
-            --status-info: #2f81f7;
+            /* === MAIN COLORS === */
+            --bg-body: #f7f7f8;
+            --bg-sidebar: #ffffff;
+            --bg-card: #ffffff;
+            --bg-hover: rgba(218, 54, 51, 0.06);
+            --text-main: #111111;
+            --text-muted: #4a4a4a;
+            --border-color: #e0e0e0;
+
+            /* === PARTY BRAND === */
+            --party-red: #c62828;
+            --party-red-light: #da3633;
+            --party-red-glow: rgba(198, 40, 40, 0.10);
+            --party-gold: #d4a017;
+            --party-gold-light: #f0c040;
+            --party-black: #1a1a1a;
+
+            /* === STATUS === */
+            --status-ok: #2e7d32;
+            --status-warn: #e65100;
+            --status-err: #c62828;
+            --status-info: #1565c0;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
@@ -41,81 +46,112 @@
         }
 
         /* ----- SIDEBAR ----- */
-        .sidebar { 
-            width: 280px; 
-            background-color: var(--bg-sidebar); 
-            border-right: 1px solid var(--border-color);
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(180deg, #c62828 0%, #8b0000 100%);
+            border-right: none;
+            box-shadow: 4px 0 20px rgba(0,0,0,0.18);
             display: flex;
             flex-direction: column;
         }
-        
+
         .sidebar-header {
-            padding: 24px 20px;
-            border-bottom: 1px solid var(--border-color);
+            padding: 22px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.12);
             display: flex;
             align-items: center;
             gap: 12px;
+            background: rgba(0,0,0,0.12);
         }
         .sidebar-header .logo {
-            width: 40px; height: 40px;
-            background: linear-gradient(135deg, var(--party-red), #901a1e);
-            border-radius: 8px;
+            width: 44px; height: 44px;
+            background: linear-gradient(135deg, #d4a017, #f0c040);
+            border-radius: 10px;
             display: flex; align-items: center; justify-content: center;
-            font-size: 1.2rem; color: #fff;
-            box-shadow: 0 4px 12px rgba(218, 54, 51, 0.3);
+            font-size: 1.3rem; color: #8b0000;
+            box-shadow: 0 4px 14px rgba(212, 160, 23, 0.4);
         }
-        .sidebar-header h2 { font-size: 1.1rem; font-weight: 800; line-height: 1.2; text-transform: uppercase; color: var(--party-gold); }
-        .sidebar-header h2 span { display: block; font-size: 0.75rem; color: var(--text-main); font-weight: 500; text-transform: none; opacity: 0.8; }
-
-        .nav-menu { padding: 20px 12px; flex: 1; }
-        .nav-item { 
-            padding: 12px 16px; 
-            margin-bottom: 8px; 
-            border-radius: 6px; 
-            cursor: pointer; 
-            transition: all 0.2s ease; 
-            display: flex; 
-            align-items: center; 
-            gap: 14px; 
-            color: var(--text-muted); 
-            font-weight: 500; 
-            font-size: 0.95rem;
+        .sidebar-header h2 {
+            font-size: 1rem; font-weight: 800; line-height: 1.2;
+            text-transform: uppercase; color: #f0c040;
+            letter-spacing: 0.5px;
         }
-        .nav-item i { font-size: 1.1rem; width: 20px; text-align: center; }
-        .nav-item:hover { background-color: var(--bg-hover); color: var(--text-main); }
-        .nav-item.active { 
-            background-color: var(--party-red-glow); 
-            color: #fff; 
-            border-right: 3px solid var(--party-red); 
-        }
-        .nav-item .badge {
-            margin-left: auto;
-            background: var(--party-red); color: #fff;
-            font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; font-weight: 700;
+        .sidebar-header h2 span {
+            display: block; font-size: 0.72rem; color: rgba(255,255,255,0.85);
+            font-weight: 500; text-transform: none; margin-top: 2px;
         }
 
-        .user-panel {
-            padding: 20px; border-top: 1px solid var(--border-color);
+        .nav-menu { padding: 16px 10px; flex: 1; }
+        .nav-item {
+            padding: 11px 15px;
+            margin-bottom: 4px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            font-size: 0.88rem;
+            color: rgba(255,255,255,0.80);
+            border-left: 3px solid transparent;
+        }
+        .nav-item:hover {
+            background-color: rgba(255,255,255,0.10);
+            color: #f0c040;
+        }
+        .nav-item.active {
+            background: linear-gradient(90deg, rgba(212,160,23,0.20), rgba(212,160,23,0.05));
+            color: #f0c040;
+            border-left: 3px solid #f0c040;
+            box-shadow: inset 0 0 20px rgba(212,160,23,0.08);
+        }
+        .nav-item i {
+            font-size: 1rem; color: rgba(255,255,255,0.70);
+            transition: 0.2s; width: 22px; text-align: center;
+        }
+        .nav-item:hover i { color: #f0c040; }
+        .nav-item.active i { color: #f0c040; }
+
+        .nav-badge {
+            margin-left: auto; background: #f0c040; color: #8b0000;
+            border-radius: 12px; padding: 1px 8px;
+            font-size: 0.72rem; font-weight: 800;
+        }
+
+        .user-info {
+            padding: 16px 20px;
+            border-top: 1px solid rgba(255,255,255,0.12);
             display: flex; align-items: center; gap: 12px;
+            background: rgba(0,0,0,0.10);
         }
-        .user-panel img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--party-gold); }
-        .user-info h4 { font-size: 0.9rem; color: #fff; }
-        .user-info p { font-size: 0.8rem; color: var(--text-muted); }
+        .user-info .avatar {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: linear-gradient(135deg, #d4a017, #f0c040);
+            color: #8b0000; display: flex; align-items: center;
+            justify-content: center; font-weight: 800; font-size: 0.9rem;
+            border: 2px solid rgba(240,192,64,0.4);
+        }
+        .user-info h4 { font-size: 0.82rem; font-weight: 700; color: #fff; }
+        .user-info p { font-size: 0.68rem; color: rgba(255,255,255,0.65); }
+
 
         /* ----- MAIN CONTENT ----- */
         .main-wrapper { flex: 1; display: flex; flex-direction: column; height: 100%; overflow: hidden; }
         
         .topbar {
-            height: 70px; background-color: var(--bg-sidebar); border-bottom: 1px solid var(--border-color);
+            height: 64px; background: #ffffff;
+            border-bottom: 2px solid var(--party-gold);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
             display: flex; align-items: center; justify-content: space-between; padding: 0 30px;
         }
-        .topbar .title { font-size: 1.2rem; font-weight: 600; color: #fff; }
+        .topbar .title { font-size: 1.2rem; font-weight: 600; color: var(--text-main); }
         .controls { display: flex; gap: 20px; align-items: center; }
         .icon-btn { 
             background: none; border: none; color: var(--text-muted); font-size: 1.2rem; cursor: pointer; 
             position: relative; transition: 0.2s;
         }
-        .icon-btn:hover { color: #fff; }
+        .icon-btn:hover { color: var(--text-main); }
         .icon-btn .alert-dot {
             position: absolute; top: -2px; right: -2px;
             width: 8px; height: 8px; background: var(--status-err); border-radius: 50%;
@@ -136,13 +172,13 @@
             padding: 24px; position: relative; overflow: hidden;
         }
         .stat-card h3 { font-size: 0.9rem; color: var(--text-muted); font-weight: 500; margin-bottom: 15px; }
-        .stat-card .value { font-size: 2.2rem; font-weight: 800; color: #fff; }
-        .stat-card .icon { position: absolute; right: 20px; bottom: 20px; font-size: 3rem; opacity: 0.05; color: #fff; }
+        .stat-card .value { font-size: 2.2rem; font-weight: 800; color: var(--text-main); }
+        .stat-card .icon { position: absolute; right: 20px; bottom: 20px; font-size: 3rem; opacity: 0.05; color: var(--text-main); }
         
         .charts-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin-bottom: 30px; }
         .panel { background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 24px; }
         .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .panel-title { font-size: 1.1rem; font-weight: 600; color: #fff; display: flex; align-items: center; gap: 10px; }
+        .panel-title { font-size: 1.1rem; font-weight: 600; color: var(--text-main); display: flex; align-items: center; gap: 10px; }
 
         /* ----- KANBAN BOARD ----- */
         .kanban-board { display: flex; gap: 20px; height: calc(100vh - 160px); overflow-x: auto; padding-bottom: 20px; }
@@ -151,8 +187,8 @@
             width: 320px; min-width: 320px; display: flex; flex-direction: column;
         }
         .kanban-header { 
-            padding: 15px 20px; border-bottom: 1px solid var(--border-color); 
-            font-weight: 600; color: #fff; display: flex; justify-content: space-between;
+            padding: 15px 20px; border-bottom: 1px solid var(--border-color); box-shadow: 0 2px 10px rgba(0,0,0,0.02); 
+            font-weight: 600; color: var(--text-main); display: flex; justify-content: space-between;
             border-top-left-radius: 8px; border-top-right-radius: 8px;
         }
         .kanban-col:nth-child(1) .kanban-header { border-top: 3px solid var(--status-info); }
@@ -171,7 +207,7 @@
         .tag-blue { background: rgba(47, 129, 247, 0.1); color: var(--status-info); }
         .tag-red { background: rgba(248, 81, 73, 0.1); color: var(--status-err); }
         .tag-green { background: rgba(35, 134, 54, 0.1); color: var(--status-ok); }
-        .k-card h4 { font-size: 0.95rem; color: #fff; margin-bottom: 5px; }
+        .k-card h4 { font-size: 0.95rem; color: var(--text-main); margin-bottom: 5px; }
         .k-card p { font-size: 0.8rem; color: var(--text-muted); display:flex; justify-content: space-between; }
         .k-card img { width: 24px; height: 24px; border-radius: 50%; }
 
@@ -181,18 +217,18 @@
             background: var(--bg-sidebar); border: 1px solid var(--border-color); border-radius: 6px;
             padding: 10px 15px; display: flex; align-items: center; gap: 10px; width: 300px;
         }
-        .search-box input { background: transparent; border: none; color: #fff; outline: none; width: 100%; font-size:0.9rem; }
+        .search-box input { background: transparent; border: none; color: var(--text-main); outline: none; width: 100%; font-size:0.9rem; }
         
         .filter-btn { 
             background: var(--bg-sidebar); border: 1px solid var(--border-color); color: var(--text-main);
             padding: 10px 20px; border-radius: 6px; cursor: pointer; transition: 0.2s; font-weight: 500;
         }
         .filter-btn:hover { background: var(--bg-hover); }
-        .filter-btn.active { background: var(--party-red); border-color: var(--party-red); color: #fff; }
+        .filter-btn.active { background: var(--party-red); border-color: var(--party-red); color: var(--text-main); }
 
         .doc-table { width: 100%; border-collapse: collapse; text-align: left; background: var(--bg-card); border-radius: 8px; overflow: hidden; }
-        .doc-table th { padding: 15px 20px; border-bottom: 1px solid var(--border-color); color: var(--text-muted); font-weight: 600; font-size: 0.85rem; text-transform: uppercase; }
-        .doc-table td { padding: 15px 20px; border-bottom: 1px solid var(--border-color); font-size: 0.95rem; }
+        .doc-table th { padding: 15px 20px; border-bottom: 1px solid var(--border-color); box-shadow: 0 2px 10px rgba(0,0,0,0.02); color: var(--text-muted); font-weight: 600; font-size: 0.85rem; text-transform: uppercase; }
+        .doc-table td { padding: 15px 20px; border-bottom: 1px solid var(--border-color); box-shadow: 0 2px 10px rgba(0,0,0,0.02); font-size: 0.95rem;  color: var(--text-main); }
         .doc-table tr:hover { background-color: rgba(255,255,255,0.02); }
         
         .doc-row.urgent { border-left: 4px solid var(--party-red); }
@@ -212,7 +248,7 @@
         .org-tree { display: flex; flex-direction: column; align-items: center; padding: 20px; }
         .org-node { background: var(--bg-card); border: 2px solid var(--party-red); border-radius: 8px; padding: 15px 30px; text-align: center; position: relative; min-width: 200px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
         .org-node h3 { color: var(--party-gold); font-size: 1.1rem; margin-bottom: 5px; }
-        .org-node p { font-size: 0.85rem; color: #fff; font-weight: 500; }
+        .org-node p { font-size: 0.85rem; color: var(--text-main); font-weight: 500; }
         .org-node.main-node { border-width: 3px; background: rgba(218, 54, 51, 0.1); }
         
         .tree-line-v { width: 2px; height: 30px; background: var(--border-color); margin: 0 auto; }
@@ -228,11 +264,223 @@
         .personnel-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 20px; }
         .p-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; display: flex; align-items: center; gap: 15px; }
         .p-card img { width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--party-gold); }
-        .p-card h4 { color: #fff; font-size: 1.05rem; margin-bottom: 3px; }
+        .p-card h4 { color: var(--text-main); font-size: 1.05rem; margin-bottom: 3px; }
         .p-card p.role { color: var(--party-red); font-weight: 600; font-size: 0.85rem; margin-bottom: 3px; text-transform: uppercase; }
         .p-card p.term { color: var(--text-muted); font-size: 0.8rem; }
 
-    </style>
+    
+/* ====== STATS CARDS ====== */
+  .doc-stats-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 16px; padding: 20px 28px 0;
+  }
+  .stat-card {
+    background: var(--bg-card); border: 1px solid var(--border-color);
+    border-radius: 12px; padding: 20px 22px; position: relative; overflow: hidden;
+    transition: transform 0.2s; cursor: default;
+  }
+  .stat-card:hover { transform: translateY(-2px); }
+  .stat-card::after {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: var(--accent-color, var(--party-red));
+  }
+  .stat-card .sc-label { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;
+    letter-spacing: 0.8px; margin-bottom: 10px; }
+  .stat-card .sc-value { font-size: 2.4rem; font-weight: 800; line-height: 1;
+    color: var(--accent-color, #fff); }
+  .stat-card .sc-sub { font-size: 0.75rem; color: var(--text-muted); margin-top: 8px;
+    display: flex; align-items: center; gap: 6px; }
+  .stat-card .sc-icon { position: absolute; right: 18px; top: 16px; font-size: 3rem;
+    opacity: 0.06; }
+  .sc-red  { --accent-color: var(--party-red); }
+  .sc-gold { --accent-color: var(--party-gold); }
+  .sc-orange { --accent-color: var(--orange); }
+  .sc-green  { --accent-color: var(--green); }
+
+  /* ====== FILTER TABS ====== */
+  .filter-bar {
+    display: flex; align-items: center; gap: 10px;
+    padding: 18px 28px 0;
+  }
+  .tab-btn {
+    padding: 8px 18px; border-radius: 20px; border: 1px solid var(--border-color);
+    background: rgba(0,0,0,0.04); color: var(--text-muted); font-size: 0.83rem;
+    font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex;
+    align-items: center; gap: 7px;
+  }
+  .tab-btn.active { background: var(--party-red); border-color: var(--party-red); color: #fff;
+    box-shadow: 0 0 14px var(--red-glow); }
+  .tab-btn .badge-pill {
+    background: rgba(255,255,255,0.25); color: #fff; font-size: 0.72rem;
+    padding: 1px 7px; border-radius: 10px; font-weight: 700;
+  }
+  .tab-btn.tab-urgent.active { background: var(--party-red); border-color: var(--party-red); }
+  .tab-btn.tab-late.active   { background: var(--orange); border-color: var(--orange); color: #fff; }
+  .search-box {
+    margin-left: auto; display: flex; align-items: center;
+    background: rgba(0,0,0,0.05); border: 1px solid var(--border-color);
+    border-radius: 8px; padding: 7px 14px; gap: 8px;
+  }
+  .search-box input {
+    background: transparent; border: none; color: var(--text-main); font-size: 0.83rem;
+    width: 220px; outline: none;
+  }
+  .search-box input::placeholder { color: var(--text-muted); }
+  .search-box i { color: var(--text-muted); font-size: 0.85rem; }
+
+  /* ====== TABLE ====== */
+  .table-wrap {
+    margin: 16px 28px 28px; background: var(--bg-card);
+    border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden;
+  }
+  table { width: 100%; border-collapse: collapse; }
+  thead tr { background: rgba(0,0,0,0.03); }
+  th {
+    padding: 13px 16px; text-align: left; font-size: 0.72rem;
+    text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-muted);
+    font-weight: 600; white-space: nowrap; border-bottom: 1px solid var(--border-color);
+  }
+  tbody tr {
+    border-bottom: 1px solid var(--border-color); transition: background 0.15s;
+  }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: rgba(0,0,0,0.025); }
+  td { padding: 14px 16px; font-size: 0.85rem; vertical-align: middle;  color: var(--text-main); }
+  .col-ma { font-weight: 700; color: var(--party-gold); white-space: nowrap; }
+  .col-trich { max-width: 320px; }
+  .trich-text { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .clickable-cell { cursor: pointer; transition: all 0.2s ease; }
+  .clickable-cell:hover .trich-text, .clickable-cell:hover { color: var(--party-red); text-shadow: none; }
+
+  /* ====== BADGES ====== */
+  .badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 4px 10px; border-radius: 4px; font-size: 0.7rem;
+    font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px;
+    white-space: nowrap;
+  }
+  .badge-chi-dao { background: rgba(229,57,53,0.18); color: #ff5252; border: 1px solid #e53935; }
+  .badge-bao-cao { background: rgba(255,109,0,0.15); color: #ff9100; border: 1px solid #ff6d00; }
+  .badge-nghi-quyet { background: var(--red-glow); color: #ff5252; border: 1px solid var(--party-red); }
+  .badge-ke-hoach { background: rgba(41,121,255,0.15); color: #82b1ff; border: 1px solid #2979ff; }
+  .badge-thong-bao { background: rgba(255,214,0,0.12); color: #ffd600; border: 1px solid #ffd600; }
+  .badge-chuong-trinh { background: rgba(0,200,83,0.12); color: #69f0ae; border: 1px solid #00c853; }
+  .badge-cong-van { background: rgba(0,0,0,0.05); color: #666; border: 1px solid #ccc; }
+
+  /* ====== HẠN XỬ LÝ ====== */
+  .han-pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 600;
+    white-space: nowrap;
+  }
+  .han-qua { background: rgba(229,57,53,0.2); color: #ff5252; border: 1px solid #e53935; }
+  .han-gan { background: rgba(255,109,0,0.18); color: #ff9100; border: 1px solid #ff6d00; }
+  .han-ok  { background: rgba(0,200,83,0.12); color: #69f0ae; border: 1px solid #00c853; }
+  .han-none { color: var(--text-muted); font-size: 0.75rem; }
+
+  /* ====== CẢNH BÁO CELL ====== */
+  .canh-bao-cell { display: flex; align-items: center; gap: 7px; font-size: 0.8rem; font-weight: 600; white-space: nowrap; }
+  .cb-icon { width: 20px; height: 20px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.6rem; }
+  .cb-red    { color: #ff5252; }
+  .cb-orange { color: #ff9100; }
+  .cb-green  { color: #69f0ae; }
+  .cb-blue   { color: #82b1ff; }
+
+  /* ====== ACTION BUTTONS ====== */
+  .btn-action {
+    padding: 6px 14px; border-radius: 5px; border: none; font-size: 0.75rem;
+    font-weight: 600; cursor: pointer; transition: all 0.18s; white-space: nowrap;
+    display: inline-flex; align-items: center; gap: 5px;
+  }
+  .btn-trinh { background: var(--party-red); color: #fff; }
+  .btn-trinh:hover { background: #c62828; transform: scale(1.03); }
+  .btn-bao-cao { background: var(--orange-dim); color: var(--orange); border: 1px solid var(--orange); }
+  .btn-bao-cao:hover { background: var(--orange); color: #fff; }
+  .btn-xem { background: rgba(0,0,0,0.05); color: var(--text-main); border: 1px solid var(--border-color); }
+  .btn-xem:hover { background: rgba(0,0,0,0.1); }
+
+  /* ====== EMPTY / LOADING ====== */
+  .empty-state { text-align: center; padding: 60px; color: var(--text-muted); }
+  .empty-state i { font-size: 3rem; margin-bottom: 14px; display: block; }
+  .loading-row td { text-align: center; padding: 50px; color: var(--text-muted);  color: var(--text-main); }
+  .pulse { animation: pulse 1.4s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+  /* ====== BLINKING ALERT DOT ====== */
+  .alert-dot {
+    display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--party-red); animation: blink 1s ease-in-out infinite;
+    box-shadow: 0 0 6px var(--party-red);
+  }
+  @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.2; } }
+
+  /* ====== FOOTER ====== */
+  .footer-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 28px; border-top: 1px solid var(--border-color);
+    font-size: 0.75rem; color: var(--text-muted);
+    position: sticky; bottom: 0; background: var(--bg);
+  }
+
+  /* ====== TOAST ====== */
+  #toast-area { position: fixed; top: 80px; right: 24px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
+  .toast {
+    background: #ffffff; color: var(--text-main); border-left: 4px solid var(--party-red);
+    border-radius: 8px; padding: 14px 18px; min-width: 300px; max-width: 380px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    animation: slideIn 0.3s ease;
+  }
+  .toast.green { border-color: var(--green); }
+  .toast.orange { border-color: var(--orange); }
+  .toast-title { font-size: 0.82rem; font-weight: 700; margin-bottom: 4px; }
+  .toast-msg   { font-size: 0.78rem; color: var(--text-muted); }
+  @keyframes slideIn { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+  /* ====== MODAL ====== */
+  .modal-overlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+    z-index: 10000; display: flex; align-items: center; justify-content: center;
+    opacity: 0; visibility: hidden; transition: all 0.25s ease;
+  }
+  .modal-overlay.show { opacity: 1; visibility: visible; }
+  .modal-box {
+    background: var(--bg-card); border: 1px solid var(--border-color);
+    border-radius: 12px; width: 850px; max-width: 95%; max-height: 90vh;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+    transform: translateY(20px) scale(0.98); transition: all 0.3s ease;
+    display: flex; flex-direction: column; overflow: hidden;
+  }
+  .modal-overlay.show .modal-box { transform: translateY(0) scale(1); }
+  .modal-header {
+    background: linear-gradient(135deg, rgba(229,57,53,0.1) 0%, rgba(0,0,0,0.4) 100%);
+    padding: 16px 24px; border-bottom: 1px solid var(--border-color);
+    display: flex; flex-shrink: 0; align-items: flex-start; justify-content: space-between; gap: 16px;
+  }
+  .modal-header-left { flex: 1; }
+  .m-soHieu { font-size: 1.1rem; font-weight: 800; color: var(--party-gold); margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
+  .m-trichYeu { font-size: 0.95rem; line-height: 1.5; color: #fff; font-weight: 600; }
+  .modal-meta { display: flex; gap: 20px; margin-top: 10px; font-size: 0.8rem; color: var(--text-muted); }
+  .modal-meta span { display: flex; align-items: center; gap: 6px; }
+  .modal-meta i { color: var(--text-main); }
+  .modal-close {
+    background: rgba(0,0,0,0.05); border: 1px solid var(--border-color);
+    color: #fff; width: 32px; height: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: all 0.2s; flex-shrink: 0;
+  }
+  .modal-close:hover { background: var(--party-red); border-color: var(--party-red); transform: rotate(90deg); }
+  .modal-footer {
+    padding: 12px 24px; border-top: 1px solid var(--border-color); background: var(--bg);
+    display: flex; justify-content: space-between; align-items: center; flex-shrink: 0;
+  }
+
+  /* ====== RESPONSIVE ====== */
+  @media (max-width: 900px) {
+    .doc-stats-grid { grid-template-columns: 1fr 1fr; }
+    .col-trich { max-width: 180px; }
+  }
+</style>
 </head>
 <body>
 
@@ -287,7 +535,7 @@
             
             <!-- VIEW: DASHBOARD -->
             <div id="view-dashboard" class="view-section active">
-                <div class="stats-grid">
+                <div class="doc-stats-grid">
                     <div class="stat-card">
                         <h3>Tổng số Đảng viên</h3>
                         <div class="value">168</div>
@@ -378,7 +626,7 @@
                                 <p>Gửi hs từ 01/03/2026</p>
                                 <div style="margin-top: 12px; padding-top: 10px; border-top: 1px dashed var(--border-color); display:flex; justify-content:space-between; align-items:center;">
                                     <span style="font-size:0.75rem; color:var(--text-muted);"><i class="fa-solid fa-paperclip"></i> 2 Tệp</span>
-                                    <button style="background:var(--party-red); border:none; color:#fff; border-radius:4px; font-size:0.75rem; padding:4px 8px; cursor:pointer;" onclick="alert('Upload Biên bản kết luận thẩm tra An ninh chính trị')"><i class="fa-solid fa-upload"></i> Bổ sung</button>
+                                    <button style="background:var(--party-red); border:none; color:var(--text-main); border-radius:4px; font-size:0.75rem; padding:4px 8px; cursor:pointer;" onclick="alert('Upload Biên bản kết luận thẩm tra An ninh chính trị')"><i class="fa-solid fa-upload"></i> Bổ sung</button>
                                 </div>
                             </div>
                         </div>
@@ -414,7 +662,7 @@
                                 <p><span class="blink-text" style="display:inline-block;">Hết dự bị: 08/04/2026</span></p>
                                 <div style="margin-top: 12px; padding-top: 10px; border-top: 1px dashed var(--border-color); display:flex; justify-content:space-between; align-items:center;">
                                     <span style="font-size:0.75rem; color:var(--text-muted);"><i class="fa-solid fa-paperclip"></i> 6 Tệp</span>
-                                    <button style="background:var(--status-err); border:none; color:#fff; border-radius:4px; font-size:0.75rem; padding:4px 8px; cursor:pointer;" onclick="alert('Vui lòng Upload ngay Bản Tự Kiểm Điểm để chuyển Đảng chính thức!')"><i class="fa-solid fa-file-arrow-up"></i> Khẩn cấp</button>
+                                    <button style="background:var(--status-err); border:none; color:var(--text-main); border-radius:4px; font-size:0.75rem; padding:4px 8px; cursor:pointer;" onclick="alert('Vui lòng Upload ngay Bản Tự Kiểm Điểm để chuyển Đảng chính thức!')"><i class="fa-solid fa-file-arrow-up"></i> Khẩn cấp</button>
                                 </div>
                             </div>
                         </div>
@@ -424,163 +672,110 @@
 
             <!-- VIEW: DOCUMENTS -->
             <div id="view-documents" class="view-section">
-                
-                <div class="doc-toolbar">
-                    <button class="filter-btn active">Tất cả</button>
-                    <button class="filter-btn">Công văn khẩn <span style="color:var(--status-err); margin-left:5px;">(1)</span></button>
-                    <button class="filter-btn">Đang trễ hạn <span style="color:var(--status-err); margin-left:5px;">(2)</span></button>
-                    <div class="search-box" style="margin-left: auto;">
-                        <i class="fa-solid fa-search"></i>
-                        <input type="text" placeholder="Tìm trích yếu, số VB...">
-                    </div>
-                </div>
+                <!-- Data injection from CanhBao_CongVanDang.html -->
+                <div style="padding: 0px;">
+<!-- STATS CARDS -->
+<div class="doc-stats-grid">
+  <div class="stat-card sc-red">
+    <div class="sc-label">Quá hạn cần xử lý</div>
+    <div class="sc-value" id="cnt-qua-han">—</div>
+    <div class="sc-sub"><span class="alert-dot"></span>&nbsp;Cần xử lý NGAY</div>
+    <i class="fa-solid fa-triangle-exclamation sc-icon"></i>
+  </div>
+  <div class="stat-card sc-orange">
+    <div class="sc-label">Sắp đến hạn (≤3 ngày)</div>
+    <div class="sc-value" id="cnt-gan-han">—</div>
+    <div class="sc-sub"><i class="fa-solid fa-clock"></i>&nbsp;Cần ưu tiên</div>
+    <i class="fa-solid fa-hourglass-half sc-icon"></i>
+  </div>
+  <div class="stat-card sc-gold">
+    <div class="sc-label">Chưa xem</div>
+    <div class="sc-value" id="cnt-chua-xem">—</div>
+    <div class="sc-sub"><i class="fa-solid fa-envelope"></i>&nbsp;Tổng văn bản mới</div>
+    <i class="fa-solid fa-file-lines sc-icon"></i>
+  </div>
+  <div class="stat-card sc-green">
+    <div class="sc-label">Tổng công văn Đảng</div>
+    <div class="sc-value" id="cnt-total">—</div>
+    <div class="sc-sub"><i class="fa-solid fa-check-circle"></i>&nbsp;<span id="fetch-time">Chưa tải</span></div>
+    <i class="fa-solid fa-layer-group sc-icon"></i>
+  </div>
+</div>
 
-                <div class="panel" style="padding:0;">
-                    <table class="doc-table">
-                        <thead>
-                            <tr>
-                                <th>Ký hiệu</th>
-                                <th>Loại</th>
-                                <th>Trích yếu nội dung</th>
-                                <th>Nơi gửi</th>
-                                <th>Hạn xử lý</th>
-                                <th>Cảnh báo E-Office</th>
-                                <th>Thao tác</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="doc-row late urgent">
-                                <td style="font-weight:bold; color:#fff;">142/CV-ĐU</td>
-                                <td><span class="badge urgent">CHỈ ĐẠO KHẨN</span></td>
-                                <td style="font-weight:600; color:#fff;">V/v xét duyệt danh sách kết nạp lớp Đảng viên mới đợt 1 năm 2026</td>
-                                <td>Đảng ủy Khối</td>
-                                <td><span class="badge late">Hạn: 08/04/2026</span></td>
-                                <td><span class="blink-text"><i class="fa-solid fa-circle-exclamation"></i> QUÁ HẠN 2 NGÀY</span></td>
-                                <td><button style="background:var(--party-red); color:#fff; border:none; padding:6px 12px; border-radius:4px; cursor:pointer;"><i class="fa-solid fa-signature"></i> Trình Bí Thư</button></td>
-                            </tr>
-                            <tr class="doc-row late">
-                                <td style="font-weight:bold; color:#fff;">TB-05/BTC</td>
-                                <td><span class="badge warning">Báo cáo</span></td>
-                                <td style="font-weight:600;">Yêu cầu nộp lý lịch quần chúng thẩm tra CA</td>
-                                <td>Ban Tổ chức</td>
-                                <td><span class="badge late">Hạn: 09/04/2026</span></td>
-                                <td><span class="blink-text"><i class="fa-solid fa-circle-exclamation"></i> QUÁ HẠN 1 NGÀY</span></td>
-                                <td><button style="background:var(--bg-hover); color:#fff; border:1px solid var(--party-red); padding:6px 12px; border-radius:4px; cursor:pointer;">Điền báo cáo</button></td>
-                            </tr>
-                            <tr class="doc-row">
-                                <td style="font-weight:bold;">145/QĐ-ĐU</td>
-                                <td><span class="badge normal">Nội bộ</span></td>
-                                <td>Quyết định chuẩn y Ban chi ủy nhiệm kỳ mới</td>
-                                <td>Đảng bộ TAWACO</td>
-                                <td><span class="badge warning">Hạn: 12/04/2026</span></td>
-                                <td><span style="color:var(--status-warn);"><i class="fa-solid fa-clock"></i> Còn 2 ngày</span></td>
-                                <td><button style="background:var(--bg-hover); color:#fff; border:none; padding:6px 12px; border-radius:4px; cursor:pointer;">Xem</button></td>
-                            </tr>
-                            <tr class="doc-row">
-                                <td style="font-weight:bold;">148/TB-ĐU</td>
-                                <td><span class="badge normal">Nội bộ</span></td>
-                                <td>Thông báo mức thu Đảng phí quý 2</td>
-                                <td>Các chi bộ</td>
-                                <td><span class="badge normal">Không thời hạn</span></td>
-                                <td><span style="color:var(--status-ok);"><i class="fa-solid fa-check-circle"></i> Đã xử lý E-Office</span></td>
-                                <td><button style="background:var(--bg-hover); color:#fff; border:none; padding:6px 12px; border-radius:4px; cursor:pointer;">Xem</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+<!-- FILTER TABS -->
+<div class="filter-bar">
+  <button class="tab-btn active" id="tab-all" onclick="setTab('all')">
+    <i class="fa-solid fa-list"></i> Tất cả
+  </button>
+  <button class="tab-btn tab-urgent" id="tab-urgent" onclick="setTab('urgent')">
+    <i class="fa-solid fa-fire"></i> Công văn khẩn
+    <span class="badge-pill" id="pill-urgent">0</span>
+  </button>
+  <button class="tab-btn tab-late" id="tab-late" onclick="setTab('late')">
+    <i class="fa-solid fa-skull"></i> Đang trễ hạn
+    <span class="badge-pill" id="pill-late">0</span>
+  </button>
+  <div class="search-box">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="text" id="search-input" placeholder="Tìm trích yếu, số VB..." oninput="applyFilter()">
+  </div>
+</div>
 
-            </div>
+<!-- TABLE -->
+<div class="table-wrap">
+  <table id="main-table">
+    <thead>
+      <tr>
+        <th>KÝ HIỆU</th>
+        <th>LOẠI</th>
+        <th>TRÍCH YẾU NỘI DUNG</th>
+        <th>NƠI GỬI</th>
+        <th>HẠN XỬ LÝ</th>
+        <th>CẢNH BÁO E-OFFICE</th>
+        <th>THAO TÁC</th>
+      </tr>
+    </thead>
+    <tbody id="table-body">
+      <tr class="loading-row">
+        <td colspan="7">
+          <div class="pulse"><i class="fa-solid fa-circle-notch fa-spin"></i> &nbsp;Đang tải dữ liệu...</div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
-             <!-- VIEW: PROFILE & UPLOAD -->
-             <div id="view-profile" class="view-section">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                    <!-- Form Cập nhật Nhân sự -->
-                    <div class="panel">
-                        <div class="panel-header" style="border-bottom: 1px solid var(--border-color); padding-bottom: 15px; margin-bottom: 20px;">
-                            <h2 class="panel-title"><i class="fa-solid fa-user-pen"></i> Chỉnh sửa Thông tin Nhân sự</h2>
-                        </div>
-                        <form style="display: flex; flex-direction: column; gap: 15px;">
-                            <div>
-                                <label style="display:block; color:var(--text-muted); font-size:0.85rem; margin-bottom:5px;">Họ tên khai sinh</label>
-                                <input type="text" value="Nguyễn Văn A" style="width:100%; padding:10px 15px; background:var(--bg-sidebar); border:1px solid var(--border-color); color:#fff; border-radius:6px; font-size:0.95rem; outline:none;">
-                            </div>
-                            <div style="display:flex; gap:15px;">
-                                <div style="flex:1;">
-                                    <label style="display:block; color:var(--text-muted); font-size:0.85rem; margin-bottom:5px;">Ngày sinh</label>
-                                    <input type="date" value="1990-05-15" style="width:100%; padding:10px 15px; background:var(--bg-sidebar); border:1px solid var(--border-color); color:#fff; border-radius:6px; font-size:0.95rem; outline:none; color-scheme: dark;">
-                                </div>
-                                <div style="flex:1;">
-                                    <label style="display:block; color:var(--text-muted); font-size:0.85rem; margin-bottom:5px;">Trình độ LL Chính trị</label>
-                                    <select style="width:100%; padding:10px 15px; background:var(--bg-sidebar); border:1px solid var(--border-color); color:#fff; border-radius:6px; font-size:0.95rem; outline:none;">
-                                        <option>Sơ cấp</option>
-                                        <option selected>Trung cấp</option>
-                                        <option>Cao cấp</option>
-                                        <option>Chưa có</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div style="display:flex; gap:15px;">
-                                <div style="flex:1;">
-                                    <label style="display:block; color:var(--text-muted); font-size:0.85rem; margin-bottom:5px;">Ngày kết nạp Đảng</label>
-                                    <input type="date" value="2025-04-08" style="width:100%; padding:10px 15px; background:var(--bg-sidebar); border:1px solid var(--border-color); color:#fff; border-radius:6px; font-size:0.95rem; outline:none; color-scheme: dark;">
-                                </div>
-                                <div style="flex:1;">
-                                    <label style="display:block; color:var(--text-muted); font-size:0.85rem; margin-bottom:5px;">Kỳ hạn chức vụ</label>
-                                    <select style="width:100%; padding:10px 15px; background:var(--bg-sidebar); border:1px solid var(--border-color); color:#fff; border-radius:6px; font-size:0.95rem; outline:none;">
-                                        <option selected>Đảng viên Dự bị</option>
-                                        <option>Đảng viên Chính thức</option>
-                                        <option>Chi ủy viên</option>
-                                        <option>Bí thư / Phó Bí thư</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div style="margin-top:10px; display:flex; justify-content:flex-end; gap:10px;">
-                                <button type="button" class="filter-btn">Hủy bỏ</button>
-                                <button type="button" style="background:var(--party-red); color:#fff; border:none; padding:10px 20px; border-radius:6px; cursor:pointer; font-weight:600;" onclick="alert('Đã cập nhật hồ sơ Đảng viên lên hệ thống Cloud!')"><i class="fa-solid fa-save"></i> Cập nhật hồ sơ</button>
-                            </div>
-                        </form>
-                    </div>
+<!-- FOOTER -->
+<div class="footer-bar">
+  <span><i class="fa-solid fa-circle-info"></i> &nbsp;Dữ liệu lấy từ E-Office: <strong>vpdt.capnuoctrungan.vn</strong> · Tài khoản: <strong>vanthudang</strong></span>
+  <span id="last-update">Chưa cập nhật</span>
+</div>
 
-                    <!-- Upload Mật -->
-                    <div class="panel">
-                        <div class="panel-header" style="border-bottom: 1px solid var(--border-color); padding-bottom: 15px; margin-bottom: 20px;">
-                            <h2 class="panel-title"><i class="fa-solid fa-folder-closed"></i> Lưu trữ Văn kiện đính kèm</h2>
-                        </div>
-                        <div style="background: var(--bg-sidebar); border: 1px dashed var(--border-color); border-radius: 8px; padding: 25px; text-align: center; margin-bottom:20px;">
-                            <i class="fa-solid fa-file-shield" style="font-size: 2.5rem; color: var(--status-info); margin-bottom: 10px;"></i>
-                            <h3 style="color:#fff; margin-bottom:5px; font-size:1rem;">Tải lên Tờ khai / Bản kiểm điểm</h3>
-                            <p style="color:var(--text-muted); font-size:0.8rem; margin-bottom:15px;">Hệ thống tự động mã hóa và đóng dấu bản quyền "MẬT".</p>
-                            <button style="background:var(--bg-hover); color:#fff; border:1px solid var(--border-color); padding:8px 16px; border-radius:4px; cursor:pointer; font-size:0.85rem;"><i class="fa-solid fa-upload"></i> Chọn File Upload</button>
-                        </div>
+<!-- MODAL XEM NOI DUNG CT CÔNG VĂN -->
+<div id="doc-modal" class="modal-overlay" onclick="if(event.target===this) closeDocModal()">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-header-left">
+        <div class="m-soHieu"><span id="m-soHieu">--</span> <span id="m-loai"></span> <span id="m-hanXuLy"></span></div>
+        <div class="m-trichYeu" id="m-trichYeu">--</div>
+        <div class="modal-meta" style="margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(0,0,0,0.05);">
+          <span><i class="fa-solid fa-building"></i> Nơi gửi: <b id="m-noiGui">--</b></span>
+          <span style="margin-left: 20px;"><i class="fa-solid fa-calendar-arrow-down"></i> Ngày đến: <b id="m-ngayDen">--</b></span>
+        </div>
+      </div>
+      <button class="modal-close" onclick="closeDocModal()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-footer">
+      <span style="font-size:0.75rem; color:var(--text-muted);"><i class="fa-solid fa-circle-info"></i> Để xem file tải kèm đính kèm, vui lòng mở file gốc.</span>
+      <div style="display:flex; gap:10px;">
+        <button class="btn-action btn-xem" onclick="closeDocModal()">Đóng</button>
+        <button class="btn-action btn-trinh" id="m-btn-origin"><i class="fa-solid fa-arrow-up-right-from-square"></i> Mở File Gốc</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-                        <h4 style="margin-bottom: 10px; color:var(--text-muted); font-size:0.85rem; text-transform:uppercase;">Danh mục đã lưu trữ</h4>
-                        <div style="display:flex; align-items:center; justify-content:space-between; padding:12px; background:var(--bg-sidebar); border-radius:8px; margin-bottom:8px;">
-                            <div style="display:flex; gap:12px; align-items:center;">
-                                <i class="fa-solid fa-file-pdf" style="font-size:1.5rem; color:var(--party-red);"></i>
-                                <div>
-                                    <div style="color:#fff; font-weight:500; font-size:0.85rem;">Ly-Lich-Dang-Vien-NguyenVanA.pdf</div>
-                                    <div style="color:var(--status-ok); font-size:0.7rem;"><i class="fa-solid fa-lock"></i> Đã đóng mộc MẬT • 2 MB</div>
-                                </div>
-                            </div>
-                            <div style="display:flex; gap:10px;">
-                                <i class="fa-solid fa-eye" style="color:var(--text-muted); cursor:pointer;" title="Xem trước"></i>
-                                <i class="fa-solid fa-download" style="color:var(--text-muted); cursor:pointer;" title="Tải xuống"></i>
-                            </div>
-                        </div>
-                        <div style="display:flex; align-items:center; justify-content:space-between; padding:12px; background:var(--bg-sidebar); border-radius:8px;">
-                            <div style="display:flex; gap:12px; align-items:center;">
-                                <i class="fa-solid fa-file-word" style="font-size:1.5rem; color:var(--status-info);"></i>
-                                <div>
-                                    <div style="color:#fff; font-weight:500; font-size:0.85rem;">Ban-Tu-Kiem-Diem-Chuyen-Chinh.docx</div>
-                                    <div style="color:var(--status-warn); font-size:0.7rem;"><i class="fa-solid fa-shield-halved"></i> Chưa ký số xác thực • 1.2 MB</div>
-                                </div>
-                            </div>
-                            <div style="display:flex; gap:10px;">
-                                <i class="fa-solid fa-eye" style="color:var(--text-muted); cursor:pointer;" title="Xem trước"></i>
-                                <i class="fa-solid fa-download" style="color:var(--text-muted); cursor:pointer;" title="Tải xuống"></i>
-                            </div>
-                        </div>
-                    </div>
+<div id="toast-area"></div>
                 </div>
             </div>
 
@@ -588,7 +783,7 @@
             <div id="view-org" class="view-section">
                 
                 <div class="panel" style="margin-bottom: 20px; text-align:center; overflow-x: auto;">
-                    <h2 style="color:var(--text-main); margin-bottom:30px;"><i class="fa-solid fa-sitemap" style="color:var(--party-red);"></i> Sơ đồ Tổ chức Cơ sở Đảng</h2>
+                    <h2 style="color:var(--text-main); margin-bottom:30px;"><i class="fa-solid fa-sitemap" style="color:var(--party-red);"></i> BAN CHẤP HÀNH ĐẢNG ỦY</h2>
                     
                     <div class="org-tree">
                         <!-- Level 1 -->
@@ -599,8 +794,8 @@
                         <div class="tree-line-v"></div>
                         
                         <!-- Level 2 -->
-                        <div class="org-node">
-                            <h3 style="color:#fff;">ĐẢNG ỦY (Ban Chấp Hành)</h3>
+                        <div class="org-node" onclick="showBranchMembers('bch')" style="cursor:pointer; transition:0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                            <h3 style="color:var(--text-main);">ĐẢNG ỦY (Ban Chấp Hành)</h3>
                             <p style="color:var(--text-muted);">07 Đồng chí</p>
                         </div>
                         
@@ -608,28 +803,33 @@
                         <div class="tree-children">
                             <div class="tree-children-row" style="width:100%; justify-content:center; gap: 15px;">
                                 <div class="org-child">
-                                    <div class="org-node" style="border-color:var(--status-info); padding: 15px 20px; min-width: 120px;">
+                                    <div class="org-node" onclick="showBranchMembers('chibo1')" style="cursor:pointer; border-color:var(--party-gold); padding: 15px 20px; min-width: 120px; transition:0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                                         <h3 style="color:var(--text-main); font-size:0.95rem; margin-bottom: 0;">Chi bộ 1</h3>
+                                        <p style="font-size: 0.75rem; color: var(--party-red); margin-top: 5px; font-weight: 500;"><a href="file:///C:/Users/TAWACO/Desktop/s%C3%A1ng%20ki%E1%BA%BFn/sang%20kien%20dang/92.186%20Q%C4%90-%C4%90U%20th%C3%A0nh%20l%E1%BA%ADp%20Chi%20b%E1%BB%99%201.pdf" target="_blank" style="color: var(--party-red); text-decoration: none;"><i class="fa-regular fa-file-pdf"></i> Quyết định</a></p>
                                     </div>
                                 </div>
                                 <div class="org-child">
-                                    <div class="org-node" style="border-color:var(--status-info); padding: 15px 20px; min-width: 120px;">
+                                    <div class="org-node" onclick="showBranchMembers('chibo2')" style="cursor:pointer; border-color:var(--party-gold); padding: 15px 20px; min-width: 120px; transition:0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                                         <h3 style="color:var(--text-main); font-size:0.95rem; margin-bottom: 0;">Chi bộ 2</h3>
+                                        <p style="font-size: 0.75rem; color: var(--party-red); margin-top: 5px; font-weight: 500;"><a href="file:///C:/Users/TAWACO/Desktop/s%C3%A1ng%20ki%E1%BA%BFn/sang%20kien%20dang/93.187%20Q%C4%90-%C4%90U%20th%C3%A0nh%20l%E1%BA%ADp%20Chi%20b%E1%BB%99%202.pdf" target="_blank" style="color: var(--party-red); text-decoration: none;"><i class="fa-regular fa-file-pdf"></i> Quyết định</a></p>
                                     </div>
                                 </div>
                                 <div class="org-child">
-                                    <div class="org-node" style="border-color:var(--status-info); padding: 15px 20px; min-width: 120px;">
+                                    <div class="org-node" onclick="showBranchMembers('chibo3')" style="cursor:pointer; border-color:var(--party-gold); padding: 15px 20px; min-width: 120px; transition:0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                                         <h3 style="color:var(--text-main); font-size:0.95rem; margin-bottom: 0;">Chi bộ 3</h3>
+                                        <p style="font-size: 0.75rem; color: var(--party-red); margin-top: 5px; font-weight: 500;"><a href="file:///C:/Users/TAWACO/Desktop/s%C3%A1ng%20ki%E1%BA%BFn/sang%20kien%20dang/94.188%20Q%C4%90-%C4%90U%20th%C3%A0nh%20l%E1%BA%ADp%20Chi%20b%E1%BB%99%203.pdf" target="_blank" style="color: var(--party-red); text-decoration: none;"><i class="fa-regular fa-file-pdf"></i> Quyết định</a></p>
                                     </div>
                                 </div>
                                 <div class="org-child">
-                                    <div class="org-node" style="border-color:var(--status-info); padding: 15px 20px; min-width: 120px;">
+                                    <div class="org-node" onclick="showBranchMembers('chibo4')" style="cursor:pointer; border-color:var(--party-gold); padding: 15px 20px; min-width: 120px; transition:0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                                         <h3 style="color:var(--text-main); font-size:0.95rem; margin-bottom: 0;">Chi bộ 4</h3>
+                                        <p style="font-size: 0.75rem; color: var(--party-red); margin-top: 5px; font-weight: 500;"><a href="file:///C:/Users/TAWACO/Desktop/s%C3%A1ng%20ki%E1%BA%BFn/sang%20kien%20dang/95.189%20Q%C4%90-%C4%90U%20th%C3%A0nh%20l%E1%BA%ADp%20Chi%20b%E1%BB%99%204.pdf" target="_blank" style="color: var(--party-red); text-decoration: none;"><i class="fa-regular fa-file-pdf"></i> Quyết định</a></p>
                                     </div>
                                 </div>
                                 <div class="org-child">
-                                    <div class="org-node" style="border-color:var(--status-info); padding: 15px 20px; min-width: 120px;">
+                                    <div class="org-node" onclick="showBranchMembers('chibo5')" style="cursor:pointer; border-color:var(--party-gold); padding: 15px 20px; min-width: 120px; transition:0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                                         <h3 style="color:var(--text-main); font-size:0.95rem; margin-bottom: 0;">Chi bộ 5</h3>
+                                        <p style="font-size: 0.75rem; color: var(--party-red); margin-top: 5px; font-weight: 500;"><a href="file:///C:/Users/TAWACO/Desktop/s%C3%A1ng%20ki%E1%BA%BFn/sang%20kien%20dang/96.190%20Q%C4%90-%C4%90U%20th%C3%A0nh%20l%E1%BA%ADp%20Chi%20b%E1%BB%99%205.pdf" target="_blank" style="color: var(--party-red); text-decoration: none;"><i class="fa-regular fa-file-pdf"></i> Quyết định</a></p>
                                     </div>
                                 </div>
                             </div>
@@ -638,48 +838,1841 @@
                 </div>
 
                 <div class="panel">
-                    <div class="panel-header" style="border-bottom: 1px solid var(--border-color); padding-bottom: 15px;">
-                        <h2 class="panel-title"><i class="fa-solid fa-users-gear"></i> Quản lý Cán bộ Chủ chốt (BCH Đảng ủy)</h2>
-                        <button class="filter-btn active"><i class="fa-solid fa-plus"></i> Thêm Cán bộ</button>
+                    <div class="panel-header" style="border-bottom: 1px solid var(--border-color); box-shadow: 0 2px 10px rgba(0,0,0,0.02); padding-bottom: 15px;">
+                        <h2 class="panel-title" id="org-list-title"><i class="fa-solid fa-users-gear"></i> BAN CHẤP HÀNH ĐẢNG ỦY</h2>
+                        <button class="filter-btn active" onclick="alert('Tính năng đang phát triển')"><i class="fa-solid fa-plus"></i> Thêm Cán bộ</button>
                     </div>
 
-                    <div class="personnel-grid">
-                        <!-- Bí thư -->
-                        <div class="p-card" style="border-left: 4px solid var(--party-red);">
-                            <img src="https://ui-avatars.com/api/?name=Bi+Thu&background=da3633&color=fff" alt="User">
-                            <div>
-                                <h4>Đ/c Bí Thư Đảng Ủy</h4>
-                                <p class="role">Bí thư Đảng ủy</p>
-                                <p class="term"><i class="fa-solid fa-calendar-check"></i> Nhiệm kỳ: 2025 - 2030</p>
-                            </div>
-                        </div>
-                        <!-- Phó Bí thư -->
-                        <div class="p-card" style="border-left: 4px solid var(--party-gold);">
-                            <img src="https://ui-avatars.com/api/?name=Pho+Thu&background=e3b341&color=fff" alt="User">
-                            <div>
-                                <h4>Đ/c Phó Bí Thư</h4>
-                                <p class="role">Phó Bí thư Đảng ủy</p>
-                                <p class="term"><i class="fa-solid fa-calendar-check"></i> Nhiệm kỳ: 2025 - 2030</p>
-                            </div>
-                        </div>
-                        <!-- Ủy viên -->
-                        <div class="p-card">
-                            <img src="https://ui-avatars.com/api/?name=Thanh+Tam&background=2f81f7&color=fff" alt="User">
-                            <div>
-                                <h4>Đ/c Nguyễn Thanh Tâm</h4>
-                                <p class="role" style="color:var(--status-info);">Ủy viên Ban chấp hành</p>
-                                <p class="term"><i class="fa-solid fa-calendar-check"></i> Nhiệm kỳ: 2025 - 2030</p>
-                            </div>
-                        </div>
+                    <div id="org-personnel" class="personnel-grid">
+                        <!-- Duoc render boi JS -->
                     </div>
                 </div>
 
             </div>
 
+
+            <!-- VIEW: PROFILE & UPLOAD -->
+            <div id="view-profile" class="view-section">
+                <div style="display: grid; grid-template-columns: 280px 1fr 300px; gap: 20px;">
+                    
+                    <!-- Sidebar Danh sách Đảng viên -->
+                    <div class="panel" style="padding: 10px; max-height: calc(100vh - 150px); overflow-y: auto;">
+                        <div style="padding: 10px; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; background: var(--bg-card); z-index: 10;">
+                            <input type="text" id="hs-search" placeholder="🔍 Tìm kiếm Đảng viên..." style="width: 100%; padding: 8px 12px; background:var(--bg-sidebar); border: 1px solid var(--border-color); color:var(--text-main); border-radius: 6px; font-size: 0.9rem; outline: none;">
+                        </div>
+                        <div id="hs-list" style="display: flex; flex-direction: column; gap: 5px; margin-top: 10px;">
+                            <!-- Sẽ được render qua JS -->
+                        </div>
+                    </div>
+
+                    <!-- Left: Form -->
+                    <div class="panel">
+                        <div class="panel-header" style="border-bottom: 1px solid var(--border-color); padding-bottom:15px;">
+                            <div class="panel-title" style="color:var(--party-red)"><i class="fa-solid fa-address-card"></i> Trích lục / Chỉnh sửa Nhân sự (V2)</div>
+                        </div>
+                        
+                        <form style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top:20px;">
+                            <div style="display: flex; flex-direction: column; gap: 15px;">
+                                <div><label style="display:block; color:var(--text-muted); font-size:0.85rem; margin-bottom:5px;">Họ tên khai sinh</label>
+                                <input type="text" id="frm-name" style="width:100%; padding:10px 15px; background:var(--bg-sidebar); border:1px solid var(--border-color); color:var(--text-main); border-radius:6px; font-size:0.95rem; outline:none;"></div>
+                                
+                                <div><label style="display:block; color:var(--text-muted); font-size:0.85rem; margin-bottom:5px;">Số thẻ Đảng</label>
+                                <input type="text" id="frm-card" style="width:100%; padding:10px 15px; background:var(--bg-sidebar); border:1px solid var(--border-color); color:var(--text-main); border-radius:6px; font-size:0.95rem; outline:none;"></div>
+                                
+                                <div><label style="display:block; color:var(--text-muted); font-size:0.85rem; margin-bottom:5px;">Chức vụ Đảng - Chính quyền</label>
+                                <input type="text" id="frm-term-role" style="width:100%; padding:10px 15px; background:var(--bg-sidebar); border:1px solid var(--border-color); color:var(--text-main); border-radius:6px; font-size:0.95rem; outline:none;"></div>
+                                
+                                <div style="display:flex; gap:15px;">
+                                    <div style="flex:1;"><label style="display:block; color:var(--text-muted); font-size:0.85rem; margin-bottom:5px;">Văn hoá</label>
+                                    <input type="text" id="frm-edu" style="width:100%; padding:10px 15px; background:var(--bg-sidebar); border:1px solid var(--border-color); color:var(--text-main); border-radius:6px; font-size:0.95rem; outline:none;"></div>
+                                    <div style="flex:1;"><label style="display:block; color:var(--text-muted); font-size:0.85rem; margin-bottom:5px;">Trình độ CM</label>
+                                    <input type="text" id="frm-degree" style="width:100%; padding:10px 15px; background:var(--bg-sidebar); border:1px solid var(--border-color); color:var(--text-main); border-radius:6px; font-size:0.95rem; outline:none;"></div>
+                                </div>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 15px;">
+                                <div><label style="display:block; color:var(--text-muted); font-size:0.85rem; margin-bottom:5px;">Ngày sinh</label>
+                                <input type="text" id="frm-dob" style="width:100%; padding:10px 15px; background:var(--bg-sidebar); border:1px solid var(--border-color); color:var(--text-main); border-radius:6px; font-size:0.95rem; outline:none;"></div>
+                                
+                                <div style="display:flex; gap:15px;">
+                                    <div style="flex:1;"><label style="display:block; color:var(--text-muted); font-size:0.85rem; margin-bottom:5px;">Ngày Dự bị</label>
+                                    <input type="text" id="frm-join1" style="width:100%; padding:10px 15px; background:var(--bg-sidebar); border:1px solid var(--border-color); color:var(--text-main); border-radius:6px; font-size:0.95rem; outline:none;"></div>
+                                    <div style="flex:1;"><label style="display:block; color:var(--text-muted); font-size:0.85rem; margin-bottom:5px;">Ngày Chính thức</label>
+                                    <input type="text" id="frm-join2" style="width:100%; padding:10px 15px; background:var(--bg-sidebar); border:1px solid var(--border-color); color:var(--text-main); border-radius:6px; font-size:0.95rem; outline:none;"></div>
+                                </div>
+                                
+                                <div><label style="display:block; color:var(--text-muted); font-size:0.85rem; margin-bottom:5px;">Trình độ LL Chính trị</label>
+                                <input type="text" id="frm-politics" style="width:100%; padding:10px 15px; background:var(--bg-sidebar); border:1px solid var(--border-color); color:var(--text-main); border-radius:6px; font-size:0.95rem; outline:none;"></div>
+                                
+                                <div style="margin-top:auto; display:flex; justify-content:flex-end; gap:10px; padding-top: 15px;">
+                                    <button type="button" class="filter-btn">Hủy bỏ</button>
+                                    <button type="button" style="background:var(--party-red); color:var(--text-main); border:none; padding:10px 20px; border-radius:6px; cursor:pointer; font-weight:600;" onclick="alert('Đã cập nhật hồ sơ Đảng viên lên hệ thống Cloud!')"><i class="fa-solid fa-save"></i> Cập nhật hồ sơ</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Right: Attachment -->
+                    <div class="panel" style="display: flex; flex-direction: column;">
+                        <div class="panel-header" style="border-bottom: 1px solid var(--border-color); padding-bottom:15px; margin-bottom: 20px;">
+                            <div class="panel-title" style="color:var(--party-gold)"><i class="fa-solid fa-folder-tree"></i> Lưu trữ Văn kiện</div>
+                        </div>
+                        <div style="padding:20px; border: 2px dashed var(--border-color); text-align:center; border-radius: 8px; margin-bottom: 20px; cursor:pointer;" onclick="alert('Mở hộp thoại chọn file tải lên')">
+                            <i class="fa-solid fa-cloud-arrow-up" style="font-size: 2.5rem; color:var(--text-muted); margin-bottom:15px;"></i>
+                            <h4 style="color:var(--text-main); font-size:1rem; margin-bottom:5px;">Tải lên Tờ khai / Bản kiểm điểm</h4>
+                            <p style="color:var(--text-muted); font-size:0.8rem;">Hệ thống tự động mã hóa và đóng dấu bản quyền "MẬT".</p>
+                        </div>
+                        <div>
+                            <div style="display:flex; align-items:center; gap:10px; padding:12px; background:var(--bg-sidebar); border:1px solid var(--border-color); border-radius:6px; margin-bottom:10px;">
+                                <i class="fa-solid fa-file-pdf" style="color:#ff5252; font-size:1.5rem;"></i>
+                                <div style="flex:1;">
+                                    <div id="pdf-label" style="font-size:0.85rem; font-weight:600; color:var(--text-main);">Ly-Lich-Dang-Vien.pdf</div>
+                                    <div style="font-size:0.75rem; color:var(--status-ok);"><i class="fa-solid fa-lock"></i> Đã đóng mộc MẬT</div>
+                                </div>
+                                <i class="fa-solid fa-download" style="cursor:pointer; color:var(--party-gold);"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
-    <script>
+<script src="cong_van_dang_data.js" onerror="console.log('Chưa tìm thấy file tự động')"></script>
+<script>
+const branchData = {
+    'chibo1': {
+        title: '<i class="fa-solid fa-users"></i> DANH SÁCH ĐẢNG VIÊN - CHI BỘ 1',
+        members: [
+            { name: 'Đ/c Trần Đức Hùng', role: 'ĐUV - Phó Bí thư Chi bộ 1 - Kế Toán trưởng', term: 'Nhiệm kỳ: 2025 - 2027', avatar: 'ĐH', color: 'var(--party-red)', roleColor: 'var(--party-red)', avatarBg: 'da3633' },
+            { name: 'Đ/c Đặng Minh Hùng', role: 'Bí thư Chi bộ 1 - Trưởng Phòng Tổ chức - Hành chính', term: 'Nhiệm kỳ: 2025 - 2027', avatar: 'MH', color: 'var(--party-red)', roleColor: 'var(--party-red)', avatarBg: 'da3633' },
+            { name: 'Đ/c Huỳnh Thị Thúy Diễm', role: 'Chi ủy viên Chi bộ 1 - Tổ trưởng', term: 'Nhiệm kỳ: 2025 - 2027', avatar: 'TD', color: 'var(--party-red)', roleColor: 'var(--party-red)', avatarBg: 'da3633' },
+            { name: 'Đ/c Phạm Chí Thiện', role: 'Bí thư Đảng ủy - Chủ tịch HĐQT', term: '', avatar: 'CT', color: 'var(--status-info)', roleColor: 'var(--status-info)', avatarBg: '2f81f7' },
+            { name: 'Đ/c Võ Thị Hồng Hà', role: 'Đảng viên - Chuyên gia', term: '', avatar: 'HH', color: 'var(--status-info)', roleColor: 'var(--status-info)', avatarBg: '2f81f7' },
+            { name: 'Đ/c Nguyễn Thanh Tâm', role: 'ĐUV - Phó Trưởng phòng TC-HC', term: '', avatar: 'TT', color: 'var(--status-info)', roleColor: 'var(--status-info)', avatarBg: '2f81f7' },
+            { name: 'Đ/c Phan Kim Phượng', role: 'Đảng viên - Trưởng Ban kiểm soát', term: '', avatar: 'KP', color: 'var(--status-info)', roleColor: 'var(--status-info)', avatarBg: '2f81f7' },
+            { name: 'Đ/c Lê Anh Thư', role: 'Đảng viên - Nhân viên', term: '', avatar: 'AT', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Lê Thanh Lâm', role: 'Đảng viên - Nhân viên', term: '', avatar: 'TL', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Mai Thị Thúy Hằng', role: 'Đảng viên - Nhân viên', term: '', avatar: 'TH', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Nguyễn Thị Hồng Duyên', role: 'Đảng viên - Phó Trưởng Phòng Kế toán tài chính', term: '', avatar: 'HD', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Nguyễn Thị Tường', role: 'Đảng viên', term: '', avatar: 'TT', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Chu Mạnh Tuấn', role: 'Đảng viên - Nhân viên', term: '', avatar: 'MT', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Phan Thị Hồng Cẩm', role: 'Đảng viên - Phó Trưởng phòng Tổ chức - Hành chính', term: '', avatar: 'HC', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Phạm Ngọc Nhật Thanh', role: 'Đảng viên - Nhân viên', term: '', avatar: 'NT', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Đỗ Hoàng Nhung', role: 'Đảng viên - Nhân viên', term: '', avatar: 'HN', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' }
+        ]
+    },
+    'chibo2': {
+        title: '<i class="fa-solid fa-users"></i> DANH SÁCH ĐẢNG VIÊN - CHI BỘ 2',
+        members: [
+            { name: 'Đ/c Dương Thị Ngọc Hân', role: 'Chi ủy viên chi bộ 2 - Trưởng phòng CNTT', term: 'Nhiệm kỳ: 2025 - 2027', avatar: 'NH', color: 'var(--party-red)', roleColor: 'var(--party-red)', avatarBg: 'da3633' },
+            { name: 'Đ/c Trần Duy Minh', role: 'ĐUV - Bí Thư Chi Bộ 2 - Trưởng Phòng Kỹ Thuật', term: 'Nhiệm kỳ: 2025 - 2027', avatar: 'DM', color: 'var(--party-red)', roleColor: 'var(--party-red)', avatarBg: 'da3633' },
+            { name: 'Đ/c Nguyễn Thị Kim Yến', role: 'Phó Bí Thư Chi Bộ 2 - Phó Trưởng Phòng Kỹ Thuật', term: 'Nhiệm kỳ: 2025 - 2027', avatar: 'KY', color: 'var(--party-red)', roleColor: 'var(--party-red)', avatarBg: 'da3633' },
+            { name: 'Đ/c Lê Trọng Hiếu', role: 'Phó Bí thư Đảng ủy - Giám đốc', term: '', avatar: 'TH', color: 'var(--status-info)', roleColor: 'var(--status-info)', avatarBg: '2f81f7' },
+            { name: 'Đ/c Phan Minh Đoàn', role: 'Đảng viên - Bí thư Đoàn', term: '', avatar: 'MĐ', color: 'var(--status-info)', roleColor: 'var(--status-info)', avatarBg: '2f81f7' },
+            { name: 'Đ/c Hà Đắc Lộc', role: 'Đảng viên - Nhân viên', term: '', avatar: 'ĐL', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Lê Đức Phú', role: 'Đảng viên - Tổ trưởng', term: '', avatar: 'ĐP', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Nguyễn Bảo Trung', role: 'Đảng viên - Nhân viên', term: '', avatar: 'BT', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Nguyễn Quốc Phong', role: 'Đảng viên - Phó Trưởng Phòng/Ban/Đội', term: '', avatar: 'QP', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Nguyễn Thanh Thụy An', role: 'Đảng viên - Phó Trưởng Phòng/Ban/Đội', term: '', avatar: 'TA', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Nguyễn Thị Lệ', role: 'Đảng viên - Nhân viên', term: '', avatar: 'TL', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Nguyễn Thị Thanh Phương', role: 'Đảng viên - Trưởng Phòng/Ban/Đội', term: '', avatar: 'TP', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Nguyễn Đức Hiếu', role: 'Đảng viên - Nhân viên', term: '', avatar: 'ĐH', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Chu Mạnh Hùng', role: 'Đảng viên - Nhân viên', term: '', avatar: 'MH', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Phạm Nguyễn Tuấn Anh', role: 'Đảng viên - Phó Trưởng Phòng/Ban/Đội', term: '', avatar: 'TA', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Phạm Đức Huy', role: 'Đảng viên - Tổ trưởng', term: '', avatar: 'ĐH', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Quách Tuấn Ngọc', role: 'Đảng viên - Tổ trưởng', term: '', avatar: 'TN', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Trương Thanh Tòng', role: 'Đảng viên - Nhân viên', term: '', avatar: 'TT', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Đinh Thị Đằng Hương', role: 'Đảng viên - Phó Trưởng Phòng/Ban/Đội', term: '', avatar: 'ĐH', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Đoàn Thị Thảo Ngân', role: 'Đảng viên - Nhân viên', term: '', avatar: 'TN', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Đặng Hậu', role: 'Đảng viên - Nhân viên', term: '', avatar: 'ĐH', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Đặng Hồ Thanh Lý', role: 'Đảng viên - Nhân viên', term: '', avatar: 'TL', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Đỗ Trung Ninh', role: 'Đảng viên - Nhân viên', term: '', avatar: 'TN', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' }
+        ]
+    },
+    'chibo3': {
+        title: '<i class="fa-solid fa-users"></i> DANH SÁCH ĐẢNG VIÊN - CHI BỘ 3',
+        members: [
+            { name: 'Đ/c Huỳnh Thị Thanh Hương', role: 'Chi ủy viên Chi bộ 3 - Phòng Giám nước không doanh thu', term: 'Nhiệm kỳ: 2025 - 2027', avatar: 'TH', color: 'var(--party-red)', roleColor: 'var(--party-red)', avatarBg: 'da3633' },
+            { name: 'Đ/c Trần Bửu Đức Quốc', role: 'Bí thư Chi bộ 3 - Đội Trưởng Đội Thi công tu bổ', term: 'Nhiệm kỳ: 2025 - 2027', avatar: 'ĐQ', color: 'var(--party-red)', roleColor: 'var(--party-red)', avatarBg: 'da3633' },
+            { name: 'Đ/c Nguyễn Hàng Phương Duy', role: 'Phó bí thư Chi bộ 3 - Trưởng Phòng Giám nước không doanh thu', term: 'Nhiệm kỳ: 2025 - 2027', avatar: 'PD', color: 'var(--party-red)', roleColor: 'var(--party-red)', avatarBg: 'da3633' },
+            { name: 'Đ/c Phạm Long Châu', role: 'Phó Giám đốc', term: '', avatar: 'LC', color: 'var(--status-info)', roleColor: 'var(--status-info)', avatarBg: '2f81f7' },
+            { name: 'Đ/c Lê Thanh Long', role: 'Đảng viên - Công nhân', term: '', avatar: 'TL', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Lê Thành Nghĩa', role: 'Đảng viên - Tổ trưởng', term: '', avatar: 'TN', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Lý Thanh Toàn', role: 'Đảng viên - Phó Trưởng Phòng/Ban/Đội', term: '', avatar: 'TT', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Nguyễn Hoài Phúc', role: 'Đảng viên - Công nhân', term: '', avatar: 'HP', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Nguyễn Hữu Trung', role: 'Đảng viên - Tổ trưởng', term: '', avatar: 'HT', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Nguyễn Roãn Thạch', role: 'Đảng viên - Phó Trưởng Phòng/Ban/Đội', term: '', avatar: 'RT', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Nguyễn Tạ Quang', role: 'Đảng viên - Nhân viên', term: '', avatar: 'TQ', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Nguyễn Tấn Tài', role: 'Đảng viên - Nhân viên', term: '', avatar: 'TT', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Trịnh Hồng Phát', role: 'Đảng viên - Tổ trưởng', term: '', avatar: 'HP', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' }
+        ]
+    },
+    'chibo4': {
+        title: '<i class="fa-solid fa-users"></i> DANH SÁCH ĐẢNG VIÊN - CHI BỘ 4',
+        members: [
+            { name: 'Đ/c Nguyễn Hoàng Minh', role: 'ĐUV - Bí thư Chi bộ 4 - Trưởng phòng Dịch vụ Khách hàng', term: 'Nhiệm kỳ: 2025 - 2027', avatar: 'HM', color: 'var(--party-red)', roleColor: 'var(--party-red)', avatarBg: 'da3633' },
+            { name: 'Đ/c Phạm Thanh Tuấn', role: 'Bí Thư Chi Bộ 4 - Trưởng Phòng Kiểm tra kiểm soát', term: 'Nhiệm kỳ: 2025 - 2027', avatar: 'TT', color: 'var(--party-red)', roleColor: 'var(--party-red)', avatarBg: 'da3633' },
+            { name: 'Đ/c Trần Thị Kim Ngân', role: 'Chi ủy viên chi bộ 4 - Phó Trưởng phòng DVKH', term: 'Nhiệm kỳ: 2025 - 2027', avatar: 'KN', color: 'var(--party-red)', roleColor: 'var(--party-red)', avatarBg: 'da3633' },
+            { name: 'Đ/c Bùi Thanh Phong', role: 'Đảng viên - Nhân viên', term: '', avatar: 'TP', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Diệp Thị Vân Thanh', role: 'Đảng viên - Nhân viên', term: '', avatar: 'VT', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Huỳnh Hữu Thảo', role: 'Đảng viên - Nhân viên', term: '', avatar: 'HT', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Huỳnh Thị Xuân Quyên', role: 'Đảng viên - Nhân viên', term: '', avatar: 'XQ', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Huỳnh Văn Chiến', role: 'Đảng viên - Nhân viên', term: '', avatar: 'VC', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Lã Thị Bích Thủy', role: 'Đảng viên - Nhân viên', term: '', avatar: 'BT', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Lê Hải Nam', role: 'Đảng viên - Tổ trưởng', term: '', avatar: 'HN', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Lê Trọng Phúc', role: 'Đảng viên - Phó Trưởng Phòng/Ban/Đội', term: '', avatar: 'TP', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Lưu Quới Thành', role: 'Đảng viên - Phó Trưởng Phòng/Ban/Đội', term: '', avatar: 'QT', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Nguyễn Gia Quang Minh', role: 'Đảng viên - Phó Trưởng Phòng/Ban/Đội', term: '', avatar: 'QM', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Nguyễn Huỳnh Ngọc Hiền', role: 'Đảng viên - Nhân viên', term: '', avatar: 'NH', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Nguyễn Phan Nhật Huy', role: 'Đảng viên - Nhân viên', term: '', avatar: 'NH', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Nguyễn Sơn Khoa', role: 'Đảng viên - Nhân viên', term: '', avatar: 'SK', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Nguyễn Thành Nhân', role: 'Đảng viên - Nhân viên', term: '', avatar: 'TN', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Nguyễn Thị Gái Bảy', role: 'Đảng viên - Phó Trưởng Phòng/Ban/Đội', term: '', avatar: 'GB', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Nguyễn Thị Hồng Đào', role: 'Đảng viên - Nhân viên', term: '', avatar: 'HĐ', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Nguyễn Thị Ngọc Diệu', role: 'Đảng viên - Tổ trưởng', term: '', avatar: 'ND', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Nguyễn Thị Thảo Vi', role: 'Đảng viên - Tổ trưởng', term: '', avatar: 'TV', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Nguyễn Đại Hoàng Quý', role: 'Đảng viên - Nhân viên', term: '', avatar: 'HQ', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Ngô Thụy Bích Thùy', role: 'Đảng viên - Nhân viên', term: '', avatar: 'BT', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Ngụy Kim Bích Nga', role: 'Đảng viên - Nhân viên', term: '', avatar: 'BN', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Phạm Thị Kim Dung', role: 'Đảng viên - Nhân viên', term: '', avatar: 'KD', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Đoàn Minh Ngọc', role: 'Đảng viên - Nhân viên', term: '', avatar: 'MN', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' }
+        ]
+    },
+    'chibo5': {
+        title: '<i class="fa-solid fa-users"></i> DANH SÁCH ĐẢNG VIÊN - CHI BỘ 5',
+        members: [
+            { name: 'Đ/c Chu Thế Hùng', role: 'ĐUV - Phó Bí thư Chi bộ 5 - Trưởng phòng Quản lý khách hàng 2', term: 'Nhiệm kỳ: 2025 - 2027', avatar: 'TH', color: 'var(--party-red)', roleColor: 'var(--party-red)', avatarBg: 'da3633' },
+            { name: 'Đ/c Lê Anh Dũng', role: 'Bí thư Chi bộ 5 - Trưởng phòng Quản lý khách hàng 1', term: 'Nhiệm kỳ: 2025 - 2027', avatar: 'AD', color: 'var(--party-red)', roleColor: 'var(--party-red)', avatarBg: 'da3633' },
+            { name: 'Đ/c Ngụy Kim Bích Thủy', role: 'Chi ủy viên Chi bộ 5 - Phó Trưởng Phòng Quản lý khách hàng 2', term: 'Nhiệm kỳ: 2025 - 2027', avatar: 'BT', color: 'var(--party-red)', roleColor: 'var(--party-red)', avatarBg: 'da3633' },
+            { name: 'Đ/c Nguyễn Minh Hải', role: 'ĐUV - Phó Giám đốc', term: '', avatar: 'MH', color: 'var(--status-info)', roleColor: 'var(--status-info)', avatarBg: '2f81f7' },
+            { name: 'Đ/c Hoàng Lữ Huy Minh', role: 'Đảng viên - Phó Trưởng Phòng/Ban/Đội', term: '', avatar: 'HM', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Lê Bá Dược', role: 'Đảng viên - Tổ trưởng', term: '', avatar: 'BD', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Lê Ngọc Kim Nhân', role: 'Đảng viên - Công nhân', term: '', avatar: 'KN', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Mai Thanh Tú', role: 'Đảng viên - Tổ trưởng', term: '', avatar: 'TT', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Nguyễn Chính Trực', role: 'Đảng viên - Tổ trưởng', term: '', avatar: 'CT', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Nguyễn Duy Tân', role: 'Đảng viên - Công nhân', term: '', avatar: 'DT', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Nguyễn Quốc Thông', role: 'Đảng viên - Công nhân', term: '', avatar: 'QT', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Nguyễn Thế Trí', role: 'Đảng viên - Công nhân', term: '', avatar: 'TT', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Nguyễn Thị Tú Chinh', role: 'Đảng viên - Nhân viên', term: '', avatar: 'TC', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Nguyễn Đăng Khoa', role: 'Đảng viên - Công nhân', term: '', avatar: 'ĐK', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Phạm Hải Tân', role: 'Chi ủy viên - Chi ủy viên Chi bộ / Tổ trưởng', term: '', avatar: 'HT', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Phạm Thanh Tùng', role: 'Chi ủy viên - Chi ủy viên Chi bộ / Tổ trưởng', term: '', avatar: 'TT', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Phạm Đăng Khoa', role: 'Đảng viên - Công nhân', term: '', avatar: 'ĐK', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Trần Hữu Quí', role: 'Đảng viên - Công nhân', term: '', avatar: 'HQ', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Trần Thị Thanh Xuân', role: 'Đảng viên - Nhân viên', term: '', avatar: 'TX', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Đặng Minh Hoàng', role: 'Đảng viên - Công nhân', term: '', avatar: 'MH', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' },
+            { name: 'Đ/c Đỗ Nguyễn Văn Thanh', role: 'Đảng viên - Công nhân', term: '', avatar: 'VT', color: 'transparent', roleColor: 'var(--text-muted)', avatarBg: '9e9e9e' }
+        ]
+    },
+    'bch': {
+        title: '<i class="fa-solid fa-users-gear"></i> BAN CHẤP HÀNH ĐẢNG ỦY',
+        members: [
+            { name: 'Đ/c Phạm Chí Thiện', role: 'Bí thư Đảng ủy - Chủ tịch HĐQT', term: 'Nhiệm kỳ: 2025 - 2030', avatar: 'CT', color: 'var(--party-red)', roleColor: 'var(--party-red)', avatarBg: 'da3633' },
+            { name: 'Đ/c Trần Đức Hùng', role: 'ĐUV - Phó Bí thư Chi bộ 1 - Kế Toán trưởng', term: 'Nhiệm kỳ: 2025 - 2030', avatar: 'ĐH', color: 'var(--party-red)', roleColor: 'var(--party-red)', avatarBg: 'da3633' },
+            { name: 'Đ/c Nguyễn Thanh Tâm', role: 'ĐUV - Phó Trưởng phòng TC-HC', term: 'Nhiệm kỳ: 2025 - 2030', avatar: 'TT', color: 'var(--party-red)', roleColor: 'var(--party-red)', avatarBg: 'da3633' },
+            { name: 'Đ/c Lê Trọng Hiếu', role: 'Phó Bí thư Đảng ủy - Giám đốc', term: 'Nhiệm kỳ: 2025 - 2030', avatar: 'TH', color: 'var(--party-red)', roleColor: 'var(--party-red)', avatarBg: 'da3633' },
+            { name: 'Đ/c Trần Duy Minh', role: 'ĐUV - Bí thư Chi bộ 2 - Trưởng Phòng Kỹ thuật', term: 'Nhiệm kỳ: 2025 - 2030', avatar: 'DM', color: 'var(--party-red)', roleColor: 'var(--party-red)', avatarBg: 'da3633' },
+            { name: 'Đ/c Chu Thế Hùng', role: 'ĐUV - Phó Bí Thư Chi Bộ 5 - Trưởng Phòng Quản Lý Khách Hàng 2', term: 'Nhiệm kỳ: 2025 - 2030', avatar: 'TH', color: 'var(--party-red)', roleColor: 'var(--party-red)', avatarBg: 'da3633' },
+            { name: 'Đ/c Nguyễn Minh Hải', role: 'ĐUV - Phó Giám đốc', term: 'Nhiệm kỳ: 2025 - 2030', avatar: 'MH', color: 'var(--party-red)', roleColor: 'var(--party-red)', avatarBg: 'da3633' }
+        ]
+    }
+};
+
+const hoSoDangVien = [
+    {
+        "id": "m_81",
+        "name": "Chu Mạnh Tuấn",
+        "chibo": "Chi Bộ 1",
+        "avatar": "MT",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Nhân viên",
+        "card": "",
+        "dob": "1989-08-10",
+        "dubi": "2024-09-09",
+        "chinhthuc": "2025-09-09",
+        "politics": "",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cử nhân"
+    },
+    {
+        "id": "m_66",
+        "name": "Huỳnh Thị Thúy Diễm",
+        "chibo": "Chi Bộ 1",
+        "avatar": "TD",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Tổ trưởng",
+        "card": "40.157606",
+        "dob": "1982-01-01",
+        "dubi": "2009-09-18",
+        "chinhthuc": "2010-09-18",
+        "politics": "Trung cấp",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cử nhân"
+    },
+    {
+        "id": "m_98",
+        "name": "Lê Anh Thư",
+        "chibo": "Chi Bộ 1",
+        "avatar": "AT",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Nhân viên",
+        "card": "",
+        "dob": "1987-06-26",
+        "dubi": "",
+        "chinhthuc": "",
+        "politics": "",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cử nhân"
+    },
+    {
+        "id": "m_21",
+        "name": "Lê Thanh Lâm",
+        "chibo": "Chi Bộ 1",
+        "avatar": "TL",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Nhân viên",
+        "card": "40.148318",
+        "dob": "1976-03-31",
+        "dubi": "2008-11-20",
+        "chinhthuc": "2009-11-20",
+        "politics": "-",
+        "vanhoa": "12/12",
+        "trinhdocm": "Trung cấp"
+    },
+    {
+        "id": "m_86",
+        "name": "Mai Thị Thúy Hằng",
+        "chibo": "Chi Bộ 1",
+        "avatar": "TH",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Nhân viên",
+        "card": "40.276712",
+        "dob": "1987-10-12",
+        "dubi": "2022-05-24",
+        "chinhthuc": "2023-05-24",
+        "politics": "-",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cử nhân"
+    },
+    {
+        "id": "m_16",
+        "name": "Nguyễn Thanh Tâm",
+        "chibo": "Chi Bộ 1",
+        "avatar": "TT",
+        "isDUV": true,
+        "duv_order": 6,
+        "term": "Đảng viên",
+        "role": "Phó Trưởng Phòng/Ban/Đội",
+        "card": "40.148835",
+        "dob": "1986-02-18",
+        "dubi": "2008-10-02",
+        "chinhthuc": "2009-10-02",
+        "politics": "Trung cấp",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cử nhân"
+    },
+    {
+        "id": "m_49",
+        "name": "Nguyễn Thị Hồng Duyên",
+        "chibo": "Chi Bộ 1",
+        "avatar": "HD",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Phó Trưởng Phòng/Ban/Đội",
+        "card": "40.273509",
+        "dob": "1987-02-15",
+        "dubi": "2021-12-22",
+        "chinhthuc": "2021-12-22",
+        "politics": "Trung cấp",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cử nhân"
+    },
+    {
+        "id": "m_7",
+        "name": "Nguyễn Thị Tường",
+        "chibo": "Chi Bộ 1",
+        "avatar": "TT",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Phó Trưởng Phòng/Ban/Đội",
+        "card": "40.187081",
+        "dob": "1968-12-23",
+        "dubi": "2013-02-03",
+        "chinhthuc": "2014-02-03",
+        "politics": "-",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cử nhân"
+    },
+    {
+        "id": "m_33",
+        "name": "Phan Kim Phượng",
+        "chibo": "Chi Bộ 1",
+        "avatar": "KP",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Trưởng Ban kiểm soát",
+        "card": "40.229168",
+        "dob": "1977-08-25",
+        "dubi": "2017-01-14",
+        "chinhthuc": "2018-01-14",
+        "politics": "Trung cấp",
+        "vanhoa": "12/12",
+        "trinhdocm": "Thạc sĩ"
+    },
+    {
+        "id": "m_57",
+        "name": "Phan Thị Hồng Cẩm",
+        "chibo": "Chi Bộ 1",
+        "avatar": "HC",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Phó Trưởng Phòng/Ban/Đội",
+        "card": "40.249612",
+        "dob": "1991-08-02",
+        "dubi": "2018-12-28",
+        "chinhthuc": "2019-12-28",
+        "politics": "-",
+        "vanhoa": "12/12",
+        "trinhdocm": "Thạc sĩ"
+    },
+    {
+        "id": "m_97",
+        "name": "Phạm Chí Thiện",
+        "chibo": "Chi Bộ 1",
+        "avatar": "CT",
+        "isDUV": true,
+        "duv_order": 1,
+        "term": "Ủy viên BCH (Đảng ủy viên)",
+        "role": "Bí thư Đảng ủy / Chủ tịch HĐQT",
+        "card": "40.111555",
+        "dob": "1968-06-16",
+        "dubi": "2009-03-11",
+        "chinhthuc": "2010-03-11",
+        "politics": "Cao cấp",
+        "vanhoa": "12/12",
+        "trinhdocm": "Kỹ sư"
+    },
+    {
+        "id": "m_84",
+        "name": "Phạm Ngọc Nhật Thanh",
+        "chibo": "Chi Bộ 1",
+        "avatar": "NT",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Nhân viên",
+        "card": "",
+        "dob": "1994-07-02",
+        "dubi": "2023-09-19",
+        "chinhthuc": "2024-09-19",
+        "politics": "",
+        "vanhoa": "12/12",
+        "trinhdocm": ""
+    },
+    {
+        "id": "m_3",
+        "name": "Trần Đức Hùng",
+        "chibo": "Chi Bộ 1",
+        "avatar": "ĐH",
+        "isDUV": true,
+        "duv_order": 4,
+        "term": "Bí thư / Phó Bí thư",
+        "role": "Phó Bí thư Chi bộ / Trưởng Phòng/Ban/Đội",
+        "card": "40.163104",
+        "dob": "1976-01-10",
+        "dubi": "2010-09-23",
+        "chinhthuc": "2011-09-23",
+        "politics": "Trung cấp",
+        "vanhoa": "12/12",
+        "trinhdocm": "Thạc sĩ"
+    },
+    {
+        "id": "m_0",
+        "name": "Võ Thị Hồng Hà",
+        "chibo": "Chi Bộ 1",
+        "avatar": "HH",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Nhân viên",
+        "card": "40.111555",
+        "dob": "1970-12-18",
+        "dubi": "1999-11-23",
+        "chinhthuc": "2000-11-23",
+        "politics": "Cao cấp",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cử nhân"
+    },
+    {
+        "id": "m_5",
+        "name": "Đặng Minh Hùng",
+        "chibo": "Chi Bộ 1",
+        "avatar": "MH",
+        "isDUV": false,
+        "term": "Bí thư / Phó Bí thư",
+        "role": "Bí thư Chi bộ / Trưởng Phòng/Ban/Đội",
+        "card": "40.13603",
+        "dob": "1976-07-02",
+        "dubi": "2007-02-03",
+        "chinhthuc": "2008-02-03",
+        "politics": "Trung cấp",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cử nhân"
+    },
+    {
+        "id": "m_85",
+        "name": "Đỗ Hoàng Nhung",
+        "chibo": "Chi Bộ 1",
+        "avatar": "HN",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Nhân viên",
+        "card": "40.270081",
+        "dob": "1995-04-22",
+        "dubi": "2021-06-21",
+        "chinhthuc": "2021-06-21",
+        "politics": "-",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cử nhân"
+    },
+    {
+        "id": "m_92",
+        "name": "Chu Mạnh Hùng",
+        "chibo": "Chi Bộ 2",
+        "avatar": "MH",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Nhân viên",
+        "card": "",
+        "dob": "1998-05-21",
+        "dubi": "2024-12-30",
+        "chinhthuc": "",
+        "politics": "",
+        "vanhoa": "12/12",
+        "trinhdocm": "Kỹ sư"
+    },
+    {
+        "id": "m_55",
+        "name": "Dương Thị Ngọc Hân",
+        "chibo": "Chi Bộ 2",
+        "avatar": "NH",
+        "isDUV": false,
+        "term": "Chi ủy viên",
+        "role": "Chi ủy viên Chi bộ / Trưởng Phòng/Ban/Đội",
+        "card": "40.239865",
+        "dob": "1985-03-17",
+        "dubi": "2018-02-09",
+        "chinhthuc": "2019-02-09",
+        "politics": "Trung cấp",
+        "vanhoa": "12/12",
+        "trinhdocm": "Kỹ sư"
+    },
+    {
+        "id": "m_90",
+        "name": "Hà Đắc Lộc",
+        "chibo": "Chi Bộ 2",
+        "avatar": "ĐL",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Nhân viên",
+        "card": "",
+        "dob": "2001-05-24",
+        "dubi": "2023-04-21",
+        "chinhthuc": "2024-04-21",
+        "politics": "-",
+        "vanhoa": "12/12",
+        "trinhdocm": ""
+    },
+    {
+        "id": "m_1",
+        "name": "Lê Trọng Hiếu",
+        "chibo": "Chi Bộ 2",
+        "avatar": "TH",
+        "isDUV": true,
+        "duv_order": 2,
+        "term": "Ủy viên BCH (Đảng ủy viên)",
+        "role": "Phó Bí thư Đảng ủy / Giám đốc",
+        "card": "40111679",
+        "dob": "1974-12-24",
+        "dubi": "1999-11-22",
+        "chinhthuc": "2000-11-22",
+        "politics": "Cao cấp",
+        "vanhoa": "12/12",
+        "trinhdocm": "Kỹ sư"
+    },
+    {
+        "id": "m_58",
+        "name": "Lê Đức Phú",
+        "chibo": "Chi Bộ 2",
+        "avatar": "ĐP",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Tổ trưởng",
+        "card": "40.270079",
+        "dob": "1991-05-16",
+        "dubi": "2021-06-16",
+        "chinhthuc": "2022-06-16",
+        "politics": "-",
+        "vanhoa": "12/12",
+        "trinhdocm": "Thạc sĩ"
+    },
+    {
+        "id": "m_73",
+        "name": "Nguyễn Bảo Trung",
+        "chibo": "Chi Bộ 2",
+        "avatar": "BT",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Nhân viên",
+        "card": "40.196883",
+        "dob": "1987-03-17",
+        "dubi": "2013-11-14",
+        "chinhthuc": "2014-11-14",
+        "politics": "-",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cao đẳng"
+    },
+    {
+        "id": "m_67",
+        "name": "Nguyễn Quốc Phong",
+        "chibo": "Chi Bộ 2",
+        "avatar": "QP",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Phó Trưởng Phòng/Ban/Đội",
+        "card": "",
+        "dob": "1988-03-15",
+        "dubi": "2023-09-19",
+        "chinhthuc": "2024-09-19",
+        "politics": "",
+        "vanhoa": "12/12",
+        "trinhdocm": "Kỹ sư"
+    },
+    {
+        "id": "m_25",
+        "name": "Nguyễn Thanh Thụy An",
+        "chibo": "Chi Bộ 2",
+        "avatar": "TA",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Phó Trưởng Phòng/Ban/Đội",
+        "card": "40.206921",
+        "dob": "1976-06-06",
+        "dubi": "2014-12-05",
+        "chinhthuc": "2015-12-05",
+        "politics": "Trung cấp",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cử nhân"
+    },
+    {
+        "id": "m_74",
+        "name": "Nguyễn Thị Kim Yến",
+        "chibo": "Chi Bộ 2",
+        "avatar": "KY",
+        "isDUV": false,
+        "term": "Bí thư / Phó Bí thư",
+        "role": "Phó Bí thư Chi bộ / Phó Trưởng Phòng/Ban/Đội",
+        "card": "40.192241",
+        "dob": "1990-07-25",
+        "dubi": "2013-01-29",
+        "chinhthuc": "2014-01-29",
+        "politics": "-",
+        "vanhoa": "12/12",
+        "trinhdocm": "Thạc sĩ"
+    },
+    {
+        "id": "m_36",
+        "name": "Nguyễn Thị Lệ",
+        "chibo": "Chi Bộ 2",
+        "avatar": "TL",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Nhân viên",
+        "card": "40.229162",
+        "dob": "1983-02-09",
+        "dubi": "2016-10-20",
+        "chinhthuc": "2017-10-20",
+        "politics": "-",
+        "vanhoa": "12/12",
+        "trinhdocm": "Kỹ sư"
+    },
+    {
+        "id": "m_8",
+        "name": "Nguyễn Thị Thanh Phương",
+        "chibo": "Chi Bộ 2",
+        "avatar": "TP",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Trưởng Phòng/Ban/Đội",
+        "card": "40.18708",
+        "dob": "1979-11-06",
+        "dubi": "2013-02-03",
+        "chinhthuc": "2014-02-03",
+        "politics": "Trung cấp",
+        "vanhoa": "12/12",
+        "trinhdocm": "Thạc sĩ"
+    },
+    {
+        "id": "m_63",
+        "name": "Nguyễn Đức Hiếu",
+        "chibo": "Chi Bộ 2",
+        "avatar": "ĐH",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Nhân viên",
+        "card": "",
+        "dob": "1988-03-22",
+        "dubi": "2023-11-07",
+        "chinhthuc": "2024-11-07",
+        "politics": "",
+        "vanhoa": "12/12",
+        "trinhdocm": "Kỹ sư"
+    },
+    {
+        "id": "m_91",
+        "name": "Phan Minh Đoàn",
+        "chibo": "Chi Bộ 2",
+        "avatar": "MĐ",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Nhân viên",
+        "card": "",
+        "dob": "1997-05-01",
+        "dubi": "2024-10-30",
+        "chinhthuc": "2025-10-30",
+        "politics": "",
+        "vanhoa": "12/12",
+        "trinhdocm": "Thạc sĩ"
+    },
+    {
+        "id": "m_47",
+        "name": "Phạm Nguyễn Tuấn Anh",
+        "chibo": "Chi Bộ 2",
+        "avatar": "TA",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Phó Trưởng Phòng/Ban/Đội",
+        "card": "40.261182",
+        "dob": "1988-05-28",
+        "dubi": "2020-02-26",
+        "chinhthuc": "2021-02-26",
+        "politics": "-",
+        "vanhoa": "12/12",
+        "trinhdocm": "Kỹ sư"
+    },
+    {
+        "id": "m_69",
+        "name": "Phạm Đức Huy",
+        "chibo": "Chi Bộ 2",
+        "avatar": "ĐH",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Tổ trưởng",
+        "card": "",
+        "dob": "1989-03-06",
+        "dubi": "2026-03-20",
+        "chinhthuc": "",
+        "politics": "",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cao đẳng"
+    },
+    {
+        "id": "m_71",
+        "name": "Quách Tuấn Ngọc",
+        "chibo": "Chi Bộ 2",
+        "avatar": "TN",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Tổ trưởng",
+        "card": "40.283492",
+        "dob": "1992-06-26",
+        "dubi": "2022-12-22",
+        "chinhthuc": "2023-12-22",
+        "politics": "",
+        "vanhoa": "12/12",
+        "trinhdocm": "Thạc sĩ"
+    },
+    {
+        "id": "m_23",
+        "name": "Trương Thanh Tòng",
+        "chibo": "Chi Bộ 2",
+        "avatar": "TT",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Nhân viên",
+        "card": "40.187082",
+        "dob": "1963-08-15",
+        "dubi": "2013-02-03",
+        "chinhthuc": "2014-02-03",
+        "politics": "-",
+        "vanhoa": "12/12",
+        "trinhdocm": ""
+    },
+    {
+        "id": "m_9",
+        "name": "Trần Duy Minh",
+        "chibo": "Chi Bộ 2",
+        "avatar": "DM",
+        "isDUV": true,
+        "duv_order": 5,
+        "term": "Bí thư / Phó Bí thư",
+        "role": "Bí thư Chi bộ / Trưởng Phòng/Ban/Đội",
+        "card": "40.157907",
+        "dob": "1982-11-27",
+        "dubi": "2009-08-05",
+        "chinhthuc": "2010-08-05",
+        "politics": "Trung cấp",
+        "vanhoa": "12/12",
+        "trinhdocm": "Kỹ sư"
+    },
+    {
+        "id": "m_50",
+        "name": "Đinh Thị Đằng Hương",
+        "chibo": "Chi Bộ 2",
+        "avatar": "ĐH",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Phó Trưởng Phòng/Ban/Đội",
+        "card": "40.249611",
+        "dob": "1976-08-02",
+        "dubi": "2018-12-28",
+        "chinhthuc": "2019-12-28",
+        "politics": "Trung cấp",
+        "vanhoa": "12/12",
+        "trinhdocm": "Thạc sĩ"
+    },
+    {
+        "id": "m_45",
+        "name": "Đoàn Thị Thảo Ngân",
+        "chibo": "Chi Bộ 2",
+        "avatar": "TN",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Nhân viên",
+        "card": "40.229163",
+        "dob": "1990-08-11",
+        "dubi": "2016-10-20",
+        "chinhthuc": "2017-10-20",
+        "politics": "-",
+        "vanhoa": "12/12",
+        "trinhdocm": "Kỹ sư"
+    },
+    {
+        "id": "m_75",
+        "name": "Đặng Hậu",
+        "chibo": "Chi Bộ 2",
+        "avatar": "ĐH",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Nhân viên",
+        "card": "40.262234",
+        "dob": "1990-01-01",
+        "dubi": "2020-05-19",
+        "chinhthuc": "2021-05-19",
+        "politics": "-",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cử nhân"
+    },
+    {
+        "id": "m_64",
+        "name": "Đặng Hồ Thanh Lý",
+        "chibo": "Chi Bộ 2",
+        "avatar": "TL",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Nhân viên",
+        "card": "40.172173",
+        "dob": "1986-06-14",
+        "dubi": "2011-07-12",
+        "chinhthuc": "2012-07-12",
+        "politics": "-",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cử nhân"
+    },
+    {
+        "id": "m_43",
+        "name": "Đỗ Trung Ninh",
+        "chibo": "Chi Bộ 2",
+        "avatar": "TN",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Nhân viên",
+        "card": "40.229166",
+        "dob": "1988-06-05",
+        "dubi": "2016-10-20",
+        "chinhthuc": "2017-10-20",
+        "politics": "-",
+        "vanhoa": "12/12",
+        "trinhdocm": ""
+    },
+    {
+        "id": "m_72",
+        "name": "Huỳnh Thị Thanh Hương",
+        "chibo": "Chi Bộ 3",
+        "avatar": "TH",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Nhân viên",
+        "card": "40.202351",
+        "dob": "1983-07-30",
+        "dubi": "2014-06-16",
+        "chinhthuc": "2015-06-16",
+        "politics": "-",
+        "vanhoa": "12/12",
+        "trinhdocm": "Kỹ sư"
+    },
+    {
+        "id": "m_17",
+        "name": "Lê Thanh Long",
+        "chibo": "Chi Bộ 3",
+        "avatar": "TL",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Công nhân",
+        "card": "40.111549",
+        "dob": "1966-03-01",
+        "dubi": "1987-04-22",
+        "chinhthuc": "1988-04-22",
+        "politics": "Trung cấp",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cử nhân"
+    },
+    {
+        "id": "m_44",
+        "name": "Lê Thành Nghĩa",
+        "chibo": "Chi Bộ 3",
+        "avatar": "TN",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Tổ trưởng",
+        "card": "40.278155",
+        "dob": "1987-04-04",
+        "dubi": "2022-08-19",
+        "chinhthuc": "2023-08-19",
+        "politics": "",
+        "vanhoa": "12/12",
+        "trinhdocm": "Kỹ sư"
+    },
+    {
+        "id": "m_56",
+        "name": "Lý Thanh Toàn",
+        "chibo": "Chi Bộ 3",
+        "avatar": "TT",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Phó Trưởng Phòng/Ban/Đội",
+        "card": "-",
+        "dob": "1990-02-23",
+        "dubi": "2021-04-27",
+        "chinhthuc": "2022-04-27",
+        "politics": "-",
+        "vanhoa": "12/12",
+        "trinhdocm": "Thạc sĩ"
+    },
+    {
+        "id": "m_53",
+        "name": "Nguyễn Hoài Phúc",
+        "chibo": "Chi Bộ 3",
+        "avatar": "HP",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Công nhân",
+        "card": "40.283491",
+        "dob": "1987-09-21",
+        "dubi": "2022-12-22",
+        "chinhthuc": "2023-12-22",
+        "politics": "",
+        "vanhoa": "12/12",
+        "trinhdocm": "Kỹ sư"
+    },
+    {
+        "id": "m_48",
+        "name": "Nguyễn Hàng Phương Duy",
+        "chibo": "Chi Bộ 3",
+        "avatar": "PD",
+        "isDUV": false,
+        "term": "Chi ủy viên",
+        "role": "Chi ủy viên Chi bộ / Trưởng Phòng/Ban/Đội",
+        "card": "40.243765",
+        "dob": "1985-09-19",
+        "dubi": "2018-07-12",
+        "chinhthuc": "2019-07-12",
+        "politics": "Trung cấp",
+        "vanhoa": "12/12",
+        "trinhdocm": "Thạc sĩ"
+    },
+    {
+        "id": "m_65",
+        "name": "Nguyễn Hữu Trung",
+        "chibo": "Chi Bộ 3",
+        "avatar": "HT",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Tổ trưởng",
+        "card": "",
+        "dob": "1988-01-27",
+        "dubi": "2024-12-30",
+        "chinhthuc": "",
+        "politics": "",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cử nhân"
+    },
+    {
+        "id": "m_15",
+        "name": "Nguyễn Roãn Thạch",
+        "chibo": "Chi Bộ 3",
+        "avatar": "RT",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Phó Trưởng Phòng/Ban/Đội",
+        "card": "40.177681",
+        "dob": "1981-10-14",
+        "dubi": "2012-02-03",
+        "chinhthuc": "2013-02-03",
+        "politics": "Trung cấp",
+        "vanhoa": "12/12",
+        "trinhdocm": "Kỹ sư"
+    },
+    {
+        "id": "m_19",
+        "name": "Nguyễn Tạ Quang",
+        "chibo": "Chi Bộ 3",
+        "avatar": "TQ",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Nhân viên",
+        "card": "40.166929",
+        "dob": "1967-04-09",
+        "dubi": "2010-10-19",
+        "chinhthuc": "2011-10-19",
+        "politics": "-",
+        "vanhoa": "12/12",
+        "trinhdocm": "Kỹ sư"
+    },
+    {
+        "id": "m_83",
+        "name": "Nguyễn Tấn Tài",
+        "chibo": "Chi Bộ 3",
+        "avatar": "TT",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Nhân viên",
+        "card": "",
+        "dob": "1995-05-18",
+        "dubi": "2025-10-03",
+        "chinhthuc": "",
+        "politics": "-",
+        "vanhoa": "12/12",
+        "trinhdocm": "Kỹ sư"
+    },
+    {
+        "id": "m_2",
+        "name": "Phạm Long Châu",
+        "chibo": "Chi Bộ 3",
+        "avatar": "LC",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Phó Giám đốc",
+        "card": "40.097914",
+        "dob": "1966-11-17",
+        "dubi": "1998-04-03",
+        "chinhthuc": "1999-04-03",
+        "politics": "Trung cấp",
+        "vanhoa": "12/12",
+        "trinhdocm": "Kỹ sư"
+    },
+    {
+        "id": "m_14",
+        "name": "Trần Bửu Đức Quốc",
+        "chibo": "Chi Bộ 3",
+        "avatar": "ĐQ",
+        "isDUV": false,
+        "term": "Bí thư / Phó Bí thư",
+        "role": "Bí thư Chi bộ / Trưởng Phòng/Ban/Đội",
+        "card": "40.111625",
+        "dob": "1972-04-27",
+        "dubi": "2001-09-18",
+        "chinhthuc": "2002-09-18",
+        "politics": "Trung cấp",
+        "vanhoa": "12/12",
+        "trinhdocm": "Thạc sĩ"
+    },
+    {
+        "id": "m_61",
+        "name": "Trịnh Hồng Phát",
+        "chibo": "Chi Bộ 3",
+        "avatar": "HP",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Tổ trưởng",
+        "card": "40.265665",
+        "dob": "1990-07-29",
+        "dubi": "2020-10-27",
+        "chinhthuc": "2021-10-27",
+        "politics": "-",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cử nhân"
+    },
+    {
+        "id": "m_95",
+        "name": "Bùi Thanh Phong",
+        "chibo": "Chi Bộ 4",
+        "avatar": "TP",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Nhân viên",
+        "card": "",
+        "dob": "1994-11-25",
+        "dubi": "2025-03-14",
+        "chinhthuc": "",
+        "politics": "",
+        "vanhoa": "12/12",
+        "trinhdocm": "Thạc sĩ"
+    },
+    {
+        "id": "m_32",
+        "name": "Diệp Thị Vân Thanh",
+        "chibo": "Chi Bộ 4",
+        "avatar": "VT",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Nhân viên",
+        "card": "40.229167",
+        "dob": "1969-11-10",
+        "dubi": "2017-01-14",
+        "chinhthuc": "2018-01-14",
+        "politics": "Trung cấp",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cử nhân"
+    },
+    {
+        "id": "m_20",
+        "name": "Huỳnh Hữu Thảo",
+        "chibo": "Chi Bộ 4",
+        "avatar": "HT",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Nhân viên",
+        "card": "40.180594",
+        "dob": "1977-10-15",
+        "dubi": "2012-05-07",
+        "chinhthuc": "2013-05-07",
+        "politics": "Trung cấp",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cử nhân"
+    },
+    {
+        "id": "m_96",
+        "name": "Huỳnh Thị Xuân Quyên",
+        "chibo": "Chi Bộ 4",
+        "avatar": "XQ",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Nhân viên",
+        "card": "40.277461",
+        "dob": "1980-03-13",
+        "dubi": "2022-06-16",
+        "chinhthuc": "2023-06-16",
+        "politics": "",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cử nhân"
+    },
+    {
+        "id": "m_38",
+        "name": "Huỳnh Văn Chiến",
+        "chibo": "Chi Bộ 4",
+        "avatar": "VC",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Nhân viên",
+        "card": "40.276705",
+        "dob": "1980-05-13",
+        "dubi": "2022-04-28",
+        "chinhthuc": "2023-04-28",
+        "politics": "-",
+        "vanhoa": "12/12",
+        "trinhdocm": "Trung cấp"
+    },
+    {
+        "id": "m_76",
+        "name": "Lã Thị Bích Thủy",
+        "chibo": "Chi Bộ 4",
+        "avatar": "BT",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Nhân viên",
+        "card": "40.286018",
+        "dob": "1985-04-11",
+        "dubi": "2023-06-21",
+        "chinhthuc": "2024-06-21",
+        "politics": "",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cử nhân"
+    },
+    {
+        "id": "m_24",
+        "name": "Lê Hải Nam",
+        "chibo": "Chi Bộ 4",
+        "avatar": "HN",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Tổ trưởng",
+        "card": "40.13329",
+        "dob": "1978-11-14",
+        "dubi": "2006-05-24",
+        "chinhthuc": "2007-05-24",
+        "politics": "Trung cấp",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cử nhân"
+    },
+    {
+        "id": "m_18",
+        "name": "Lê Trọng Phúc",
+        "chibo": "Chi Bộ 4",
+        "avatar": "TP",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Phó Trưởng Phòng/Ban/Đội",
+        "card": "40.163105",
+        "dob": "1967-03-06",
+        "dubi": "2010-05-19",
+        "chinhthuc": "2011-05-19",
+        "politics": "-",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cử nhân"
+    },
+    {
+        "id": "m_27",
+        "name": "Lưu Quới Thành",
+        "chibo": "Chi Bộ 4",
+        "avatar": "QT",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Phó Trưởng Phòng/Ban/Đội",
+        "card": "40.174971",
+        "dob": "1981-08-05",
+        "dubi": "2011-10-20",
+        "chinhthuc": "2012-10-20",
+        "politics": "-",
+        "vanhoa": "12/12",
+        "trinhdocm": "Thạc sĩ"
+    },
+    {
+        "id": "m_41",
+        "name": "Nguyễn Gia Quang Minh",
+        "chibo": "Chi Bộ 4",
+        "avatar": "QM",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Phó Trưởng Phòng/Ban/Đội",
+        "card": "40.215299",
+        "dob": "1985-12-15",
+        "dubi": "2015-10-15",
+        "chinhthuc": "2016-10-15",
+        "politics": "Trung cấp",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cử nhân"
+    },
+    {
+        "id": "m_22",
+        "name": "Nguyễn Hoàng Minh",
+        "chibo": "Chi Bộ 4",
+        "avatar": "HM",
+        "isDUV": false,
+        "term": "Bí thư / Phó Bí thư",
+        "role": "Phó Bí thư Chi bộ / Trưởng Phòng/Ban/Đội",
+        "card": "40.133289",
+        "dob": "1977-10-25",
+        "dubi": "2006-09-07",
+        "chinhthuc": "2007-09-07",
+        "politics": "Trung cấp",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cử nhân"
+    },
+    {
+        "id": "m_89",
+        "name": "Nguyễn Huỳnh Ngọc Hiền",
+        "chibo": "Chi Bộ 4",
+        "avatar": "NH",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Nhân viên",
+        "card": "40.286017",
+        "dob": "1997-10-24",
+        "dubi": "2023-06-21",
+        "chinhthuc": "2024-06-21",
+        "politics": "",
+        "vanhoa": "12/12",
+        "trinhdocm": "Kỹ sư"
+    },
+    {
+        "id": "m_54",
+        "name": "Nguyễn Phan Nhật Huy",
+        "chibo": "Chi Bộ 4",
+        "avatar": "NH",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Nhân viên",
+        "card": "",
+        "dob": "1991-07-06",
+        "dubi": "2024-08-08",
+        "chinhthuc": "2025-08-08",
+        "politics": "",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cử nhân"
+    },
+    {
+        "id": "m_46",
+        "name": "Nguyễn Sơn Khoa",
+        "chibo": "Chi Bộ 4",
+        "avatar": "SK",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Nhân viên",
+        "card": "40.234511",
+        "dob": "1987-11-08",
+        "dubi": "2017-09-01",
+        "chinhthuc": "2018-09-01",
+        "politics": "-",
+        "vanhoa": "12/12",
+        "trinhdocm": "Kỹ sư"
+    },
+    {
+        "id": "m_39",
+        "name": "Nguyễn Thành Nhân",
+        "chibo": "Chi Bộ 4",
+        "avatar": "TN",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Nhân viên",
+        "card": "40.203719",
+        "dob": "1983-03-05",
+        "dubi": "2014-09-03",
+        "chinhthuc": "2015-09-03",
+        "politics": "-",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cử nhân"
+    },
+    {
+        "id": "m_6",
+        "name": "Nguyễn Thị Gái Bảy",
+        "chibo": "Chi Bộ 4",
+        "avatar": "GB",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Phó Trưởng Phòng/Ban/Đội",
+        "card": "40.148317",
+        "dob": "1973-02-18",
+        "dubi": "2008-11-20",
+        "chinhthuc": "2009-11-20",
+        "politics": "Trung cấp",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cử nhân"
+    },
+    {
+        "id": "m_82",
+        "name": "Nguyễn Thị Hồng Đào",
+        "chibo": "Chi Bộ 4",
+        "avatar": "HĐ",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Nhân viên",
+        "card": "",
+        "dob": "1995-04-09",
+        "dubi": "2025-03-14",
+        "chinhthuc": "",
+        "politics": "",
+        "vanhoa": "12/12",
+        "trinhdocm": "Kỹ sư"
+    },
+    {
+        "id": "m_40",
+        "name": "Nguyễn Thị Ngọc Diệu",
+        "chibo": "Chi Bộ 4",
+        "avatar": "ND",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Tổ trưởng",
+        "card": "40.23451",
+        "dob": "1986-06-16",
+        "dubi": "2017-09-01",
+        "chinhthuc": "2018-09-01",
+        "politics": "Trung cấp",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cử nhân"
+    },
+    {
+        "id": "m_51",
+        "name": "Nguyễn Thị Thảo Vi",
+        "chibo": "Chi Bộ 4",
+        "avatar": "TV",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Tổ trưởng",
+        "card": "40.276704",
+        "dob": "1990-04-03",
+        "dubi": "2022-04-28",
+        "chinhthuc": "2023-04-28",
+        "politics": "-",
+        "vanhoa": "12/12",
+        "trinhdocm": "Thạc sĩ"
+    },
+    {
+        "id": "m_42",
+        "name": "Nguyễn Đại Hoàng Quý",
+        "chibo": "Chi Bộ 4",
+        "avatar": "HQ",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Nhân viên",
+        "card": "",
+        "dob": "1983-05-18",
+        "dubi": "2024-12-30",
+        "chinhthuc": "",
+        "politics": "",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cao đẳng"
+    },
+    {
+        "id": "m_88",
+        "name": "Ngô Thụy Bích Thùy",
+        "chibo": "Chi Bộ 4",
+        "avatar": "BT",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Nhân viên",
+        "card": "",
+        "dob": "1989-09-19",
+        "dubi": "2026-03-20",
+        "chinhthuc": "",
+        "politics": "",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cao đẳng"
+    },
+    {
+        "id": "m_94",
+        "name": "Ngụy Kim Bích Nga",
+        "chibo": "Chi Bộ 4",
+        "avatar": "BN",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Nhân viên",
+        "card": "",
+        "dob": "1983-08-18",
+        "dubi": "2026-03-20",
+        "chinhthuc": "",
+        "politics": "",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cử nhân"
+    },
+    {
+        "id": "m_4",
+        "name": "Phạm Thanh Tuấn",
+        "chibo": "Chi Bộ 4",
+        "avatar": "TT",
+        "isDUV": false,
+        "term": "Bí thư / Phó Bí thư",
+        "role": "Bí thư Chi bộ / Trưởng Phòng/Ban/Đội",
+        "card": "40.138384",
+        "dob": "1978-06-19",
+        "dubi": "2007-07-10",
+        "chinhthuc": "2008-07-10",
+        "politics": "Trung cấp",
+        "vanhoa": "12/12",
+        "trinhdocm": "Thạc sĩ"
+    },
+    {
+        "id": "m_78",
+        "name": "Phạm Thị Kim Dung",
+        "chibo": "Chi Bộ 4",
+        "avatar": "KD",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Nhân viên",
+        "card": "",
+        "dob": "1989-12-05",
+        "dubi": "2023-12-15",
+        "chinhthuc": "2024-12-15",
+        "politics": "",
+        "vanhoa": "12/12",
+        "trinhdocm": "Trung cấp"
+    },
+    {
+        "id": "m_34",
+        "name": "Trần Thị Kim Ngân",
+        "chibo": "Chi Bộ 4",
+        "avatar": "KN",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Phó Trưởng Phòng/Ban/Đội",
+        "card": "40.195437",
+        "dob": "1986-06-09",
+        "dubi": "2013-11-20",
+        "chinhthuc": "2014-11-20",
+        "politics": "Trung cấp",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cử nhân"
+    },
+    {
+        "id": "m_77",
+        "name": "Đoàn Minh Ngọc",
+        "chibo": "Chi Bộ 4",
+        "avatar": "MN",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Nhân viên",
+        "card": "40.263871",
+        "dob": "1992-06-21",
+        "dubi": "2020-12-09",
+        "chinhthuc": "2021-12-09",
+        "politics": "-",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cử nhân"
+    },
+    {
+        "id": "m_10",
+        "name": "Chu Thế Hùng",
+        "chibo": "Chi Bộ 5",
+        "avatar": "TH",
+        "isDUV": true,
+        "duv_order": 7,
+        "term": "Bí thư / Phó Bí thư",
+        "role": "Bí thư Chi bộ / Trưởng Phòng/Ban/Đội",
+        "card": "40.136031",
+        "dob": "1972-02-22",
+        "dubi": "2007-02-03",
+        "chinhthuc": "2008-02-03",
+        "politics": "Trung cấp",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cử nhân"
+    },
+    {
+        "id": "m_93",
+        "name": "Hoàng Lữ Huy Minh",
+        "chibo": "Chi Bộ 5",
+        "avatar": "HM",
+        "isDUV": false,
+        "term": "Chi ủy viên",
+        "role": "Chi ủy viên Chi bộ / Phó Trưởng Phòng/Ban/Đội",
+        "card": "40.263869",
+        "dob": "1975-02-05",
+        "dubi": "2020-11-13",
+        "chinhthuc": "2021-11-13",
+        "politics": "-",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cử nhân"
+    },
+    {
+        "id": "m_12",
+        "name": "Lê Anh Dũng",
+        "chibo": "Chi Bộ 5",
+        "avatar": "AD",
+        "isDUV": false,
+        "term": "Bí thư / Phó Bí thư",
+        "role": "Bí thư Chi bộ / Trưởng Phòng/Ban/Đội",
+        "card": "40.111665",
+        "dob": "1969-04-12",
+        "dubi": "2001-07-31",
+        "chinhthuc": "2002-07-31",
+        "politics": "Trung cấp",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cử nhân"
+    },
+    {
+        "id": "m_29",
+        "name": "Lê Bá Dược",
+        "chibo": "Chi Bộ 5",
+        "avatar": "BD",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Tổ trưởng",
+        "card": "40.206711",
+        "dob": "1972-10-10",
+        "dubi": "2014-12-05",
+        "chinhthuc": "2015-12-05",
+        "politics": "-",
+        "vanhoa": "12/12",
+        "trinhdocm": ""
+    },
+    {
+        "id": "m_79",
+        "name": "Lê Ngọc Kim Nhân",
+        "chibo": "Chi Bộ 5",
+        "avatar": "KN",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Công nhân",
+        "card": "",
+        "dob": "1988-03-29",
+        "dubi": "2025-03-14",
+        "chinhthuc": "",
+        "politics": "",
+        "vanhoa": "12/12",
+        "trinhdocm": ""
+    },
+    {
+        "id": "m_59",
+        "name": "Mai Thanh Tú",
+        "chibo": "Chi Bộ 5",
+        "avatar": "TT",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Tổ trưởng",
+        "card": "40.262681",
+        "dob": "1988-06-06",
+        "dubi": "2020-03-26",
+        "chinhthuc": "2021-03-26",
+        "politics": "-",
+        "vanhoa": "12/12",
+        "trinhdocm": "Kỹ sư"
+    },
+    {
+        "id": "m_52",
+        "name": "Nguyễn Chính Trực",
+        "chibo": "Chi Bộ 5",
+        "avatar": "CT",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Tổ trưởng",
+        "card": "",
+        "dob": "1981-08-05",
+        "dubi": "2024-12-30",
+        "chinhthuc": "",
+        "politics": "",
+        "vanhoa": "12/12",
+        "trinhdocm": ""
+    },
+    {
+        "id": "m_28",
+        "name": "Nguyễn Duy Tân",
+        "chibo": "Chi Bộ 5",
+        "avatar": "DT",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Công nhân",
+        "card": "40.216392",
+        "dob": "1969-07-26",
+        "dubi": "2015-11-23",
+        "chinhthuc": "2016-11-23",
+        "politics": "-",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cao đẳng"
+    },
+    {
+        "id": "m_11",
+        "name": "Nguyễn Minh Hải",
+        "chibo": "Chi Bộ 5",
+        "avatar": "MH",
+        "isDUV": true,
+        "duv_order": 3,
+        "term": "Đảng viên",
+        "role": "Phó Giám đốc",
+        "card": "40.111609",
+        "dob": "1968-06-16",
+        "dubi": "1998-10-27",
+        "chinhthuc": "1999-10-27",
+        "politics": "Cao cấp",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cử nhân"
+    },
+    {
+        "id": "m_70",
+        "name": "Nguyễn Quốc Thông",
+        "chibo": "Chi Bộ 5",
+        "avatar": "QT",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Công nhân",
+        "card": "40.197931",
+        "dob": "1991-05-17",
+        "dubi": "2013-11-26",
+        "chinhthuc": "2014-11-26",
+        "politics": "-",
+        "vanhoa": "12/12",
+        "trinhdocm": ""
+    },
+    {
+        "id": "m_87",
+        "name": "Nguyễn Thế Trí",
+        "chibo": "Chi Bộ 5",
+        "avatar": "TT",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Công nhân",
+        "card": "40.188734",
+        "dob": "1985-01-02",
+        "dubi": "2013-02-22",
+        "chinhthuc": "2014-02-22",
+        "politics": "Trung cấp",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cử nhân"
+    },
+    {
+        "id": "m_60",
+        "name": "Nguyễn Thị Tú Chinh",
+        "chibo": "Chi Bộ 5",
+        "avatar": "TC",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Nhân viên",
+        "card": "",
+        "dob": "1985-06-27",
+        "dubi": "2024-08-30",
+        "chinhthuc": "2025-08-30",
+        "politics": "",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cử nhân"
+    },
+    {
+        "id": "m_37",
+        "name": "Nguyễn Đăng Khoa",
+        "chibo": "Chi Bộ 5",
+        "avatar": "ĐK",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Công nhân",
+        "card": "77.213904",
+        "dob": "1983-05-29",
+        "dubi": "2006-01-23",
+        "chinhthuc": "2007-01-23",
+        "politics": "-",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cử nhân"
+    },
+    {
+        "id": "m_13",
+        "name": "Ngụy Kim Bích Thủy",
+        "chibo": "Chi Bộ 5",
+        "avatar": "BT",
+        "isDUV": false,
+        "term": "Bí thư / Phó Bí thư",
+        "role": "Phó Bí thư Chi bộ / Phó Trưởng Phòng/Ban/Đội",
+        "card": "40.119181",
+        "dob": "1973-09-25",
+        "dubi": "2004-11-26",
+        "chinhthuc": "2005-11-26",
+        "politics": "Trung cấp",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cử nhân"
+    },
+    {
+        "id": "m_30",
+        "name": "Phạm Hải Tân",
+        "chibo": "Chi Bộ 5",
+        "avatar": "HT",
+        "isDUV": false,
+        "term": "Chi ủy viên",
+        "role": "Chi ủy viên Chi bộ / Tổ trưởng",
+        "card": "40.142353",
+        "dob": "1983-09-12",
+        "dubi": "2008-01-10",
+        "chinhthuc": "2009-01-10",
+        "politics": "Trung cấp",
+        "vanhoa": "12/12",
+        "trinhdocm": ""
+    },
+    {
+        "id": "m_31",
+        "name": "Phạm Thanh Tùng",
+        "chibo": "Chi Bộ 5",
+        "avatar": "TT",
+        "isDUV": false,
+        "term": "Chi ủy viên",
+        "role": "Chi ủy viên Chi bộ / Tổ trưởng",
+        "card": "40.161224",
+        "dob": "1984-07-01",
+        "dubi": "2009-11-20",
+        "chinhthuc": "2010-11-20",
+        "politics": "Trung cấp",
+        "vanhoa": "12/12",
+        "trinhdocm": "Trung cấp"
+    },
+    {
+        "id": "m_80",
+        "name": "Phạm Đăng Khoa",
+        "chibo": "Chi Bộ 5",
+        "avatar": "ĐK",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Công nhân",
+        "card": "40.087065",
+        "dob": "1978-09-30",
+        "dubi": "1999-12-24",
+        "chinhthuc": "2000-12-24",
+        "politics": "-",
+        "vanhoa": "12/12",
+        "trinhdocm": ""
+    },
+    {
+        "id": "m_35",
+        "name": "Trần Hữu Quí",
+        "chibo": "Chi Bộ 5",
+        "avatar": "HQ",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Công nhân",
+        "card": "40.064049",
+        "dob": "1970-05-29",
+        "dubi": "2000-11-20",
+        "chinhthuc": "2001-11-20",
+        "politics": "Trung cấp",
+        "vanhoa": "12/12",
+        "trinhdocm": "Trung cấp"
+    },
+    {
+        "id": "m_68",
+        "name": "Trần Thị Thanh Xuân",
+        "chibo": "Chi Bộ 5",
+        "avatar": "TX",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Nhân viên",
+        "card": "40.286019",
+        "dob": "1992-07-25",
+        "dubi": "2023-06-21",
+        "chinhthuc": "2024-06-21",
+        "politics": "",
+        "vanhoa": "12/12",
+        "trinhdocm": "Thạc sĩ"
+    },
+    {
+        "id": "m_26",
+        "name": "Đặng Minh Hoàng",
+        "chibo": "Chi Bộ 5",
+        "avatar": "MH",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Công nhân",
+        "card": "40.174972",
+        "dob": "1978-06-15",
+        "dubi": "2011-10-20",
+        "chinhthuc": "2012-10-20",
+        "politics": "-",
+        "vanhoa": "12/12",
+        "trinhdocm": "Trung cấp"
+    },
+    {
+        "id": "m_62",
+        "name": "Đỗ Nguyễn Văn Thanh",
+        "chibo": "Chi Bộ 5",
+        "avatar": "VT",
+        "isDUV": false,
+        "term": "Đảng viên",
+        "role": "Công nhân",
+        "card": "",
+        "dob": "1991-10-30",
+        "dubi": "2024-04-17",
+        "chinhthuc": "2025-05-17",
+        "politics": "",
+        "vanhoa": "12/12",
+        "trinhdocm": "Cao đẳng"
+    }
+];
+
         function switchTab(tabId, el) {
             // Update Menu
             document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
@@ -723,12 +2716,371 @@
                     responsive: true,
                     plugins: { legend: { display: false } },
                     scales: {
-                        y: { grid: { color: 'rgba(255,255,255,0.05)' } },
+                        y: { grid: { color: 'rgba(0,0,0,0.05)' } },
                         x: { grid: { display: false } }
                     }
                 }
             });
         }
-    </script>
+    
+
+        // TỔ CHỨC & CHI BỘ
+        function showBranchMembers(branchId) {
+            const listEl = document.getElementById('org-personnel');
+            const titleEl = document.getElementById('org-list-title');
+            if(!listEl || !branchData[branchId]) return;
+            
+            titleEl.innerHTML = branchData[branchId].title;
+            let h = '';
+            branchData[branchId].members.forEach(m => {
+                h += `
+                <div class="p-card" style="border-left: 4px solid ${m.color}">
+                    <div style="width: 50px; height: 50px; background: #${m.avatarBg}; color:var(--text-main); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: bold; border: 2px solid var(--party-gold);">
+                        ${m.avatar}
+                    </div>
+                    <div>
+                        <h4 style="color:var(--text-main); font-size:1.05rem; margin-bottom:3px;">${m.name}</h4>
+                        <p class="role" style="color: ${m.roleColor}; font-weight:600; font-size:0.85rem; margin-bottom:3px; text-transform:uppercase;">${m.role}</p>
+                         ${m.term ? `<p class="term" style="color:var(--text-muted); font-size:0.8rem;">${m.term}</p>` : ''}
+                    </div>
+                </div>`;
+            });
+            listEl.innerHTML = h;
+        }
+
+        // HỒ SƠ ĐẢNG VIÊN V2
+        function renderHosolist(filterText = '') {
+            const listEl = document.getElementById('hs-list');
+            if(!listEl) return;
+            
+            let h = '';
+            const duvs = hoSoDangVien.filter(m => m.isDUV && m.name.toLowerCase().includes(filterText.toLowerCase())).sort((a,b) => (a.duv_order||99) - (b.duv_order||99));
+            const others = hoSoDangVien.filter(m => !m.isDUV && m.name.toLowerCase().includes(filterText.toLowerCase()));
+            
+            if(duvs.length > 0) {
+                h += `<div style="padding: 8px 10px; font-size: 0.8rem; font-weight: 700; color: var(--party-red); background: rgba(218,54,51,0.1); margin-top: 5px; border-radius: 4px;"><i class="fa-solid fa-star"></i> BAN CHẤP HÀNH ĐẢNG BỘ</div>`;
+                duvs.forEach(m => {
+                    h += `<div onclick="loadHoSo('${m.id}')" style="display:flex; align-items:center; gap: 10px; padding: 10px; cursor:pointer; border-radius: 6px; transition: 0.2s;" onmouseover="this.style.background='var(--bg-hover)'" onmouseout="this.style.background='transparent'">
+                        <div style="width: 32px; height: 32px; background: #da3633; color:var(--text-main); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: bold;">${m.avatar}</div>
+                        <div style="flex: 1;">
+                            <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-main);">${m.name}</div>
+                            <div style="font-size: 0.75rem; color: var(--text-muted);">${m.chibo}</div>
+                        </div>
+                    </div>`;
+                });
+            }
+            
+            const chiBoGroups = {};
+            others.forEach(m => {
+                if(!chiBoGroups[m.chibo]) chiBoGroups[m.chibo] = [];
+                chiBoGroups[m.chibo].push(m);
+            });
+            
+            Object.keys(chiBoGroups).sort().forEach(cb => {
+                h += `<div style="padding: 8px 10px; font-size: 0.8rem; font-weight: 700; color: var(--party-gold); background: rgba(227,179,65,0.1); margin-top: 15px; border-radius: 4px;"><i class="fa-solid fa-building-user"></i> ${cb.toUpperCase()}</div>`;
+                chiBoGroups[cb].forEach(m => {
+                    h += `<div onclick="loadHoSo('${m.id}')" style="display:flex; align-items:center; gap: 10px; padding: 10px; cursor:pointer; border-radius: 6px; transition: 0.2s;" onmouseover="this.style.background='var(--bg-hover)'" onmouseout="this.style.background='transparent'">
+                        <div style="width: 32px; height: 32px; background: #9e9e9e; color:var(--text-main); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: bold;">${m.avatar}</div>
+                        <div style="flex: 1;">
+                            <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-main);">${m.name}</div>
+                            <div style="font-size: 0.75rem; color: var(--text-muted);">${m.role || 'Đảng viên'}</div>
+                        </div>
+                    </div>`;
+                });
+            });
+            listEl.innerHTML = h;
+        }
+
+        function loadHoSo(id) {
+            const m = hoSoDangVien.find(x => x.id === id);
+            if(!m) return;
+            const setVal = (fid, val) => { const el = document.getElementById(fid); if(el) el.value = val || ''; };
+            
+            setVal('frm-name', m.name);
+            setVal('frm-term-role', m.role);
+            setVal('frm-card', m.card);
+            setVal('frm-degree', m.trinhdocm);
+            setVal('frm-edu', m.vanhoa);
+            const formatDate = (d) => {
+                if(!d || d.trim() === '') return '';
+                const parts = d.split('-');
+                if(parts.length === 3) return `${parts[2]}/${parts[1]}/${parts[0]}`;
+                return d;
+            };
+            setVal('frm-dob', formatDate(m.dob));
+            setVal('frm-join1', formatDate(m.dubi));
+            setVal('frm-join2', formatDate(m.chinhthuc));
+            setVal('frm-politics', m.politics);
+            
+            const docFile = document.getElementById('pdf-label');
+            if(docFile) docFile.innerText = `Ly-Lich-${m.name.replace(/\s+/g, '')}.pdf`;
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const si = document.getElementById('hs-search');
+            if(si) { si.addEventListener('input', (e) => { renderHosolist(e.target.value); }); }
+            setTimeout(() => {
+                if(typeof showBranchMembers === 'function') showBranchMembers('bch');
+                renderHosolist();
+            }, 500);
+        });
+
+
+
+        // --- LOGIC VĂN THƯ ĐẢNG ---
+        // =====================================================
+// DỮ LIỆU THỰC TẾ - Tự động load từ file JSON nếu có
+// Nếu không có, dùng dữ liệu demo từ lần scrape vừa rồi
+// =====================================================
+
+const DEMO_DATA = {
+  fetchTime: "13/04/2026 16:55:00",
+  totalDocs: 24,
+  soQuaHan: 2,
+  soGanHan: 1,
+  soChuaXem: 8,
+  docs: [
+    { soHieu: "142/CV-ĐU", loai: "Chỉ đạo khẩn", trichYeu: "V/v xét duyệt danh sách kết nạp lớp Đảng viên mới đợt 1 năm 2026", noiGui: "Đảng ủy Khối", ngayDen: "05/04/2026", hanXuLy: "08/04/2026", daysLeft: -5, status: "qua_han" },
+    { soHieu: "TB-05/BTC", loai: "Báo cáo", trichYeu: "Yêu cầu nộp lý lịch quản lý chứng thẩm tra CA", noiGui: "Ban Tổ chức", ngayDen: "06/04/2026", hanXuLy: "09/04/2026", daysLeft: -4, status: "qua_han" },
+    { soHieu: "145/QĐ-ĐU", loai: "Nội bộ", trichYeu: "Quyết định chuẩn y Ban chi ủy nhiệm kỳ mới", noiGui: "Đảng bộ TAWACO", ngayDen: "08/04/2026", hanXuLy: "12/04/2026", daysLeft: 2, status: "gan_han" },
+    { soHieu: "148/TB-ĐU", loai: "Nội bộ", trichYeu: "Thông báo mức thu Đảng phí quý 2", noiGui: "Các chi bộ", ngayDen: "09/04/2026", hanXuLy: "", daysLeft: null, status: "da_xu_ly" },
+    { soHieu: "0098/BC", loai: "Báo cáo", trichYeu: "Báo cáo quản lý tài chính Đảng năm 2025", noiGui: "Đảng ủy Tổng Công ty", ngayDen: "08/04/2026", hanXuLy: "20/04/2026", daysLeft: 7, status: "trong_han" },
+    { soHieu: "0097/TB", loai: "Thông báo", trichYeu: "Thông báo một số quyết định về công tác tổ chức - cán bộ Quý I/2026", noiGui: "Đảng ủy Tổng Công ty", ngayDen: "08/04/2026", hanXuLy: "25/04/2026", daysLeft: 12, status: "trong_han" },
+    { soHieu: "0090/CV", loai: "Công văn", trichYeu: "Về xử lý tài chính đảng và một số nội dung sau khi thực hiện sắp xếp lại mô hình tổ chức đảng", noiGui: "Đảng ủy Tổng Công ty", ngayDen: "08/04/2026", hanXuLy: "22/04/2026", daysLeft: 9, status: "trong_han" },
+    { soHieu: "0089/CV", loai: "Công văn", trichYeu: "Về phổ biến, học tập các Chương trình hành động của Đảng ủy UBND Thành phố", noiGui: "Đảng ủy Tổng Công ty", ngayDen: "08/04/2026", hanXuLy: "20/04/2026", daysLeft: 7, status: "trong_han" },
+    { soHieu: "0088/BC", loai: "Báo cáo", trichYeu: "Về rà soát, đăng ký danh sách đảng viên là công nhân trực tiếp sản xuất", noiGui: "Đảng ủy Tổng Công ty", ngayDen: "06/04/2026", hanXuLy: "18/04/2026", daysLeft: 5, status: "trong_han" },
+    { soHieu: "0086/BC", loai: "Báo cáo", trichYeu: "Báo cáo tình hình, kết quả triển khai thực hiện nhiệm vụ quý I/2026", noiGui: "Đảng ủy Tổng Công ty", ngayDen: "02/04/2026", hanXuLy: "15/04/2026", daysLeft: 2, status: "gan_han" },
+    { soHieu: "0085/BC", loai: "Báo cáo", trichYeu: "Báo cáo Sơ kết kết quả thực hiện chương trình hành động số 07-CTr/ĐU", noiGui: "Ban Chỉ đạo 07-CTr/ĐU", ngayDen: "01/04/2026", hanXuLy: "", daysLeft: null, status: "da_xu_ly" },
+    { soHieu: "0077/NQ", loai: "Nghị quyết", trichYeu: "NQ Hội nghị Ban Chấp hành Đảng bộ Tổng Công ty lần thứ 10 - khóa V", noiGui: "Đảng ủy Tổng Công ty", ngayDen: "30/03/2026", hanXuLy: "", daysLeft: null, status: "da_xu_ly" },
+    { soHieu: "0074/CV", loai: "Công văn", trichYeu: "Về quán triệt Quy chế số 04-QC/TU ngày 18/3/2026 của BTV Thành ủy", noiGui: "Đảng ủy Tổng Công ty", ngayDen: "25/03/2026", hanXuLy: "", daysLeft: null, status: "da_xu_ly" },
+    { soHieu: "0072/CV", loai: "Công văn", trichYeu: "Về tạo điều kiện cho đoàn viên TN tham dự và hỗ trợ kinh phí tập huấn", noiGui: "Đảng ủy Tổng Công ty", ngayDen: "24/03/2026", hanXuLy: "", daysLeft: null, status: "da_xu_ly" },
+    { soHieu: "0067/CV", loai: "Công văn", trichYeu: "Về đăng ký thi đua thực hiện công tác kết nạp đảng viên mới năm 2026", noiGui: "Đảng ủy Tổng Công ty", ngayDen: "06/03/2026", hanXuLy: "", daysLeft: null, status: "da_xu_ly" },
+  ]
+};
+
+// ====== STATE ======
+let allDocs = [];
+let currentTab = 'all';
+let currentSearch = '';
+
+// ====== TẢI DỮ LIỆU ======
+async function loadData() {
+  // Vì chạy file HTML trực tiếp dưới dạng file:/// nên dùng thẻ <script> để nạp data
+  // Dữ liệu thực tế được nhúng thẳng vào biến window.CONG_VAN_DATA bởi PowerShell
+  
+  if (window.CONG_VAN_DATA) {
+    const data = window.CONG_VAN_DATA;
+    renderData(data);
+    showToast('✅ Đã đồng bộ dữ liệu chuẩn!', '', 'green');
+    return;
+  }
+
+  // Fallback: Nếu tool chưa lưu data, dùng dữ liệu mẫu
+  renderData(DEMO_DATA);
+  showToast('⚡ Cảnh báo: Đang xem Dữ Liệu Ảo do hệ thống chưa Load kịp File!', '', 'orange');
+}
+
+function renderData(data) {
+  allDocs = data.docs || [];
+
+  // Update stats
+  document.getElementById('cnt-qua-han').textContent  = data.soQuaHan  ?? allDocs.filter(d=>d.status==='qua_han').length;
+  document.getElementById('cnt-gan-han').textContent  = data.soGanHan  ?? allDocs.filter(d=>d.status==='gan_han').length;
+  document.getElementById('cnt-chua-xem').textContent = data.soChuaXem ?? allDocs.filter(d=>d.status!=='da_xu_ly').length;
+  document.getElementById('cnt-total').textContent    = data.totalDocs ?? allDocs.length;
+  document.getElementById('fetch-time').textContent   = data.fetchTime ?? '';
+  document.getElementById('last-update').textContent  = 'Cập nhật: ' + (data.fetchTime || '--');
+
+  // Update pills
+  const urgent = allDocs.filter(d => d.loai && d.loai.toLowerCase().includes('khẩn'));
+  const late    = allDocs.filter(d => d.status === 'qua_han');
+  document.getElementById('pill-urgent').textContent = urgent.length;
+  document.getElementById('pill-late').textContent   = late.length;
+
+  applyFilter();
+}
+
+function applyFilter() {
+  const search = document.getElementById('search-input').value.toLowerCase().trim();
+  let filtered = allDocs;
+
+  if (currentTab === 'urgent') {
+    filtered = filtered.filter(d => d.loai && d.loai.toLowerCase().includes('khẩn'));
+  } else if (currentTab === 'late') {
+    filtered = filtered.filter(d => d.status === 'qua_han');
+  }
+
+  if (search) {
+    filtered = filtered.filter(d =>
+      (d.trichYeu||'').toLowerCase().includes(search) ||
+      (d.soHieu||'').toLowerCase().includes(search) ||
+      (d.noiGui||'').toLowerCase().includes(search)
+    );
+  }
+
+  renderTable(filtered);
+}
+
+function renderTable(docs) {
+  const tbody = document.getElementById('table-body');
+  if (!docs.length) {
+    tbody.innerHTML = `<tr><td colspan="7"><div class="empty-state"><i class="fa-solid fa-inbox"></i>Không có văn bản nào</div></td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = docs.map(doc => {
+    const loaiBadge = getLoaiBadge(doc.loai || '');
+    const hanHtml   = getHanHtml(doc);
+    const canhBao   = getCanhBao(doc);
+    const btnHtml   = getBtnHtml(doc);
+    const linkStr = doc.link ? `'${doc.link}'` : 'null';
+    return `
+    <tr class="doc-row">
+      <td class="col-ma clickable-cell" onclick="openDoc('${escHtml(doc.soHieu)}', ${linkStr})" title="Mở chi tiết văn bản">${escHtml(doc.soHieu||'')}</td>
+      <td>${loaiBadge}</td>
+      <td class="col-trich clickable-cell" onclick="openDoc('${escHtml(doc.soHieu)}', ${linkStr})" title="Mở chi tiết văn bản">
+        <div class="trich-text">${escHtml(doc.trichYeu||'')}</div>
+      </td>
+      <td style="color:var(--text-muted); font-size:0.82rem">${escHtml(doc.noiGui||'')}</td>
+      <td>${hanHtml}</td>
+      <td>${canhBao}</td>
+      <td>${btnHtml}</td>
+    </tr>`;
+  }).join('');
+}
+
+function getLoaiBadge(loai) {
+  const l = loai.toLowerCase();
+  if (l.includes('chỉ đạo') || l.includes('khẩn'))
+    return `<span class="badge badge-chi-dao"><i class="fa-solid fa-fire-flame-curved"></i>${loai}</span>`;
+  if (l.includes('báo cáo'))
+    return `<span class="badge badge-bao-cao"><i class="fa-solid fa-file-chart-bar"></i>${loai}</span>`;
+  if (l.includes('nghị quyết'))
+    return `<span class="badge badge-nghi-quyet"><i class="fa-solid fa-landmark"></i>${loai}</span>`;
+  if (l.includes('kế hoạch'))
+    return `<span class="badge badge-ke-hoach"><i class="fa-solid fa-calendar-check"></i>${loai}</span>`;
+  if (l.includes('thông báo'))
+    return `<span class="badge badge-thong-bao"><i class="fa-solid fa-bell"></i>${loai}</span>`;
+  if (l.includes('chương trình'))
+    return `<span class="badge badge-chuong-trinh"><i class="fa-solid fa-diagram-project"></i>${loai}</span>`;
+  return `<span class="badge badge-cong-van"><i class="fa-regular fa-file"></i>${loai||'Công văn'}</span>`;
+}
+
+function getHanHtml(doc) {
+  if (!doc.hanXuLy) return `<span class="han-none">Không thời hạn</span>`;
+  if (doc.status === 'qua_han') {
+    const days = Math.abs(doc.daysLeft || 0);
+    return `<span class="han-pill han-qua"><i class="fa-solid fa-skull"></i>Hạn: ${doc.hanXuLy}</span>`;
+  }
+  if (doc.status === 'gan_han') {
+    return `<span class="han-pill han-gan"><i class="fa-solid fa-hourglass-half"></i>Hạn: ${doc.hanXuLy}</span>`;
+  }
+  return `<span class="han-pill han-ok"><i class="fa-solid fa-calendar-check"></i>Hạn: ${doc.hanXuLy}</span>`;
+}
+
+function getCanhBao(doc) {
+  if (doc.status === 'qua_han') {
+    const days = Math.abs(doc.daysLeft || 0);
+    return `<div class="canh-bao-cell cb-red"><i class="fa-solid fa-circle-exclamation"></i>QUÁ HẠN ${days} NGÀY</div>`;
+  }
+  if (doc.status === 'gan_han') {
+    const days = doc.daysLeft || 0;
+    return `<div class="canh-bao-cell cb-orange"><i class="fa-solid fa-triangle-exclamation"></i>Còn ${days} ngày</div>`;
+  }
+  if (doc.status === 'da_xu_ly') {
+    return `<div class="canh-bao-cell cb-green"><i class="fa-solid fa-circle-check"></i>Đã xử lý E-Office</div>`;
+  }
+  return `<div class="canh-bao-cell cb-blue"><i class="fa-solid fa-envelope-open"></i>Chưa xem</div>`;
+}
+
+function getBtnHtml(doc) {
+  const linkStr = doc.link ? `'${doc.link}'` : 'null';
+  if (doc.status === 'qua_han') {
+    return `<button class="btn-action btn-trinh" onclick="openDoc('${escHtml(doc.soHieu)}', ${linkStr})"><i class="fa-solid fa-paper-plane"></i>Trình Bí Thư</button>`;
+  }
+  if (doc.status === 'gan_han') {
+    return `<button class="btn-action btn-bao-cao" onclick="openDoc('${escHtml(doc.soHieu)}', ${linkStr})"><i class="fa-solid fa-pen"></i>Điền báo cáo</button>`;
+  }
+  return `<button class="btn-action btn-xem" onclick="openDoc('${escHtml(doc.soHieu)}', ${linkStr})"><i class="fa-regular fa-eye"></i>Xem</button>`;
+}
+
+function openDoc(soHieu, link) {
+  // Tìm thông tin văn bản từ mảng dữ liệu đã lưu
+  const doc = allDocs.find(d => d.soHieu === soHieu) || {};
+  
+  // Lấy dữ liệu điền vào modal
+  document.getElementById('m-soHieu').textContent = doc.soHieu || soHieu;
+  document.getElementById('m-loai').innerHTML = getLoaiBadge(doc.loai || '');
+  document.getElementById('m-trichYeu').textContent = doc.trichYeu || 'Không xác định nội dung';
+  document.getElementById('m-noiGui').textContent = doc.noiGui || '--';
+  document.getElementById('m-ngayDen').textContent = doc.ngayDen || '--';
+  document.getElementById('m-hanXuLy').innerHTML = getHanHtml(doc);
+  
+  const actualLink = (link && link !== 'null' && link !== 'undefined') ? link : 'https://vpdt.capnuoctrungan.vn/CongVan/CongVanDenNew?trangThaiCV1=-1&congVanDang=1';
+  
+  document.getElementById('m-btn-origin').onclick = () => window.open(actualLink, '_blank');
+  
+  // Mở modal
+  document.getElementById('doc-modal').classList.add('show');
+}
+
+function closeDocModal() {
+  document.getElementById('doc-modal').classList.remove('show');
+}
+
+function setTab(tab) {
+  currentTab = tab;
+  ['all','urgent','late'].forEach(t => {
+    const el = document.getElementById('tab-' + t);
+    if (el) el.classList.toggle('active', t === tab);
+  });
+  applyFilter();
+}
+
+async function refreshData() {
+  const btn = document.getElementById('refresh-btn');
+  const icon = document.getElementById('refresh-icon');
+  if(btn) btn.disabled = true;
+  if(icon) icon.className = 'fa-solid fa-circle-notch fa-spin';
+  await loadData();
+  setTimeout(() => {
+    if(btn) btn.disabled = false;
+    if(icon) icon.className = 'fa-solid fa-rotate-right';
+  }, 1000);
+}
+
+function showToast(title, msg, type = 'red') {
+  const area = document.getElementById('toast-area');
+  const t = document.createElement('div');
+  t.className = `toast ${type}`;
+  t.innerHTML = `<div class="toast-title">${title}</div><div class="toast-msg">${msg}</div>`;
+  area.appendChild(t);
+  setTimeout(() => t.remove(), 6000);
+}
+
+function updateClock() {
+  const now = new Date();
+  var el=document.getElementById('clock'); if(el) el.textContent = now.toLocaleTimeString('vi-VN');
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ====== BOOT ======
+setInterval(updateClock, 1000);
+updateClock();
+loadData();
+// Tự động cập nhật mỗi 5 phút
+setInterval(loadData, 5 * 60 * 1000);
+
+// Cảnh báo âm thanh nếu có văn bản quá hạn
+setTimeout(() => {
+  const quaHan = allDocs.filter(d => d.status === 'qua_han').length;
+  if (quaHan > 0) {
+    showToast(`🔴 CÓ ${quaHan} VĂN BẢN QUÁ HẠN!`, 'Vui lòng xử lý ngay và trình Bí Thư.', 'red');
+  }
+}, 2000);
+</script>
 </body>
 </html>
