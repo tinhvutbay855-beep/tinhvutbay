@@ -480,6 +480,46 @@
     .doc-stats-grid { grid-template-columns: 1fr 1fr; }
     .col-trich { max-width: 180px; }
   }
+
+  /* ====== MOBILE RESPONSIVE CSS ====== */
+  @media (max-width: 768px) {
+    .app-container { flex-direction: column; overflow-y: auto; height: auto; min-height: 100vh; }
+    .sidebar { width: 100%; height: auto; padding: 10px 15px; }
+    .sidebar .brand { padding: 5px 0; }
+    .nav-menu { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .nav-item { flex: 1 1 45%; justify-content: center; padding: 12px; margin-bottom: 0; font-size: 0.85rem; }
+    .user-panel { position: static; margin-top: 15px; padding: 15px 0 5px 0; border-top: 1px solid rgba(255,255,255,0.2); }
+    .main-content { overflow-y: visible; height: auto; padding-bottom: 50px; }
+    .topbar { flex-direction: column; gap: 10px; text-align: center; height: auto; padding: 15px; }
+    .topbar .user-controls { justify-content: center; width: 100%; }
+    
+    .kpi-grid, .chart-grid, .personnel-grid, .doc-stats-grid { grid-template-columns: 1fr; padding: 15px; }
+    
+    /* Org chart tweaks for mobile */
+    .org-tree { overflow-x: auto; padding-bottom: 20px; }
+    .tree-children-row { flex-wrap: wrap; justify-content: center; }
+    .tree-children-row > div { flex: 1 1 100%; text-align: center; margin-bottom: 15px; }
+    .org-child::before, .org-child::after, .tree-children::before { display: none; }
+    
+    /* Document tables and filters */
+    .filter-bar { flex-direction: column; align-items: stretch; padding: 15px; gap: 10px; }
+    .search-box { width: 100%; margin-left: 0; }
+    .search-box input { width: 100%; }
+    .table-wrap { overflow-x: auto; margin: 0 15px 20px; }
+    th, td { white-space: nowrap; }
+    
+    /* Kanban / Progress */
+    .kanban-board { flex-direction: column; align-items: stretch; }
+    .kanban-col { min-width: 100%; margin-bottom: 15px; }
+    
+    /* Split layouts fallback */
+    #view-profile > div { flex-direction: column !important; }
+    #view-profile > div > div:first-child { width: 100% !important; border-right: none !important; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; margin-bottom: 20px; }
+    form > div[style*="display: flex"] { flex-direction: column; gap: 15px !important; }
+    
+    .panel { margin: 15px; }
+  }
+
 </style>
 </head>
 <body>
